@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47451b280630a4048bec8333a84ce78e, type: 3}
+  m_Name: Blank Style
+  m_EditorClassIdentifier: 
+  minButtonCount: 2
+  maxButtonCount: 15
+  RadialMenuStyles:
+  - buttonCount: 2
+    normalSprite: {fileID: 21300000, guid: 1813b7952ca014a4b92e8b66e50d52ca, type: 3}
+    highlightedSprite: {fileID: 0}
+    pressedSprite: {fileID: 0}
+    selectedSprite: {fileID: 0}
+    disabledSprite: {fileID: 0}
+  - buttonCount: 3
+    normalSprite: {fileID: 21300000, guid: 03cb9533730cf0a47ad2c313cbdcfbca, type: 3}
+    highlightedSprite: {fileID: 0}
+    pressedSprite: {fileID: 0}
+    selectedSprite: {fileID: 0}
+    disabledSprite: {fileID: 0}
+  - buttonCount: 4
+    normalSprite: {fileID: 21300000, guid: 87409ce1d914f8b488f6fb11881acf42, type: 3}
+    highlightedSprite: {fileID: 0}
+    pressedSprite: {fileID: 0}
+    selectedSprite: {fileID: 0}
+    disabledSprite: {fileID: 0}
+  - buttonCount: 5
+    normalSprite: {fileID: 21300000, guid: 7525fb54754014d4fafee06799d7ac1a, type: 3}
+    highlightedSprite: {fileID: 0}
+    pressedSprite: {fileID: 0}
+    selectedSprite: {fileID: 0}
+    disabledSprite: {fileID: 0}
+  - buttonCount: 6
+    normalSprite: {fileID: 21300000, guid: 3ca4165ed23ddc842a3bb18cc5a965ed, type: 3}
+    highlightedSprite: {fileID: 0}
+    pressedSprite: {fileID: 0}
+    selectedSprite: {fileID: 0}
+    disabledSprite: {fileID: 0}
+  - buttonCount: 7
+    normalSprite: {fileID: 21300000, guid: 725e31531028054469ad8fab2b63c76d, type: 3}
+    highlightedSprite: {fileID: 0}
+    pressedSprite: {fileID: 0}
+    selectedSprite: {fileID: 0}
+    disabledSprite: {fileID: 0}
+  - buttonCount: 8
+    normalSprite: {fileID: 21300000, guid: 1db3be0316beaf64b8c2b0a97c5fdbf2, type: 3}
+    highlightedSprite: {fileID: 0}
+    pressedSprite: {fileID: 0}
+    selectedSprite: {fileID: 0}
+    disabledSprite: {fileID: 0}
+  - buttonCount: 9
+    normalSprite: {fileID: 21300000, guid: d6b48398a2229e14f86cab80a38aa151, type: 3}
+    highlightedSprite: {fileID: 0}
+    pressedSprite: {fileID: 0}
+    selectedSprite: {fileID: 0}
+    disabledSprite: {fileID: 0}
+  - buttonCount: 10
+    normalSprite: {fileID: 21300000, guid: aa976f20513ade742a164a624a90c11c, type: 3}
+    highlightedSprite: {fileID: 0}
+    pressedSprite: {fileID: 0}
+    selectedSprite: {fileID: 0}
+    disabledSprite: {fileID: 0}
+  - buttonCount: 11
+    normalSprite: {fileID: 21300000, guid: 3270dfb4caea8f8438bb070f2496cdf0, type: 3}
+    highlightedSprite: {fileID: 0}
+    pressedSprite: {fileID: 0}
+    selectedSprite: {fileID: 0}
+    disabledSprite: {fileID: 0}
+  - buttonCount: 12
+    normalSprite: {fileID: 21300000, guid: 15671824133ac6445a738ad0943a6015, type: 3}
+    highlightedSprite: {fileID: 0}
+    pressedSprite: {fileID: 0}
+    selectedSprite: {fileID: 0}
+    disabledSprite: {fileID: 0}
+  - buttonCount: 13
+    normalSprite: {fileID: 21300000, guid: 8dabb2c54f9c3fa48a52d47c2642eb62, type: 3}
+    highlightedSprite: {fileID: 0}
+    pressedSprite: {fileID: 0}
+    selectedSprite: {fileID: 0}
+    disabledSprite: {fileID: 0}
+  - buttonCount: 14
+    normalSprite: {fileID: 21300000, guid: 8cab72ca67fb2ea408d07234e7ea93d3, type: 3}
+    highlightedSprite: {fileID: 0}
+    pressedSprite: {fileID: 0}
+    selectedSprite: {fileID: 0}
+    disabledSprite: {fileID: 0}
+  - buttonCount: 15
+    normalSprite: {fileID: 21300000, guid: ae490c4a1646c0646b1667110b334711, type: 3}
+    highlightedSprite: {fileID: 0}
+    pressedSprite: {fileID: 0}
+    selectedSprite: {fileID: 0}
+    disabledSprite: {fileID: 0}

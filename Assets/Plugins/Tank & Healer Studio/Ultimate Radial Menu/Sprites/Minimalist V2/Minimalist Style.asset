@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47451b280630a4048bec8333a84ce78e, type: 3}
+  m_Name: Minimalist Style
+  m_EditorClassIdentifier: 
+  minButtonCount: 2
+  maxButtonCount: 15
+  RadialMenuStyles:
+  - buttonCount: 2
+    normalSprite: {fileID: 21300000, guid: dae5f1c05617fe748a98e6718ae5deb0, type: 3}
+    highlightedSprite: {fileID: 21300002, guid: dae5f1c05617fe748a98e6718ae5deb0,
+      type: 3}
+    pressedSprite: {fileID: 21300000, guid: dae5f1c05617fe748a98e6718ae5deb0, type: 3}
+    selectedSprite: {fileID: 21300002, guid: dae5f1c05617fe748a98e6718ae5deb0, type: 3}
+    disabledSprite: {fileID: 21300004, guid: dae5f1c05617fe748a98e6718ae5deb0, type: 3}
+  - buttonCount: 3
+    normalSprite: {fileID: 21300000, guid: e7c7e7b55b35822468f5caac8a268c24, type: 3}
+    highlightedSprite: {fileID: 21300002, guid: e7c7e7b55b35822468f5caac8a268c24,
+      type: 3}
+    pressedSprite: {fileID: 21300000, guid: e7c7e7b55b35822468f5caac8a268c24, type: 3}
+    selectedSprite: {fileID: 21300002, guid: e7c7e7b55b35822468f5caac8a268c24, type: 3}
+    disabledSprite: {fileID: 21300004, guid: e7c7e7b55b35822468f5caac8a268c24, type: 3}
+  - buttonCount: 4
+    normalSprite: {fileID: 21300000, guid: ac789a9c484f91943a31639f50ef726a, type: 3}
+    highlightedSprite: {fileID: 21300002, guid: ac789a9c484f91943a31639f50ef726a,
+      type: 3}
+    pressedSprite: {fileID: 21300000, guid: ac789a9c484f91943a31639f50ef726a, type: 3}
+    selectedSprite: {fileID: 21300002, guid: ac789a9c484f91943a31639f50ef726a, type: 3}
+    disabledSprite: {fileID: 21300004, guid: ac789a9c484f91943a31639f50ef726a, type: 3}
+  - buttonCount: 5
+    normalSprite: {fileID: 21300000, guid: 2f4c08ea460333744a49dcd1af94c3bb, type: 3}
+    highlightedSprite: {fileID: 21300002, guid: 2f4c08ea460333744a49dcd1af94c3bb,
+      type: 3}
+    pressedSprite: {fileID: 21300000, guid: 2f4c08ea460333744a49dcd1af94c3bb, type: 3}
+    selectedSprite: {fileID: 21300002, guid: 2f4c08ea460333744a49dcd1af94c3bb, type: 3}
+    disabledSprite: {fileID: 21300004, guid: 2f4c08ea460333744a49dcd1af94c3bb, type: 3}
+  - buttonCount: 6
+    normalSprite: {fileID: 21300000, guid: 86e1c00ab776b4d4692c46c24618a4fc, type: 3}
+    highlightedSprite: {fileID: 21300002, guid: 86e1c00ab776b4d4692c46c24618a4fc,
+      type: 3}
+    pressedSprite: {fileID: 21300000, guid: 86e1c00ab776b4d4692c46c24618a4fc, type: 3}
+    selectedSprite: {fileID: 21300002, guid: 86e1c00ab776b4d4692c46c24618a4fc, type: 3}
+    disabledSprite: {fileID: 21300004, guid: 86e1c00ab776b4d4692c46c24618a4fc, type: 3}
+  - buttonCount: 7
+    normalSprite: {fileID: 21300000, guid: 6160dbc5bb8535f4d99d8bc29b8c742b, type: 3}
+    highlightedSprite: {fileID: 21300002, guid: 6160dbc5bb8535f4d99d8bc29b8c742b,
+      type: 3}
+    pressedSprite: {fileID: 21300000, guid: 6160dbc5bb8535f4d99d8bc29b8c742b, type: 3}
+    selectedSprite: {fileID: 21300002, guid: 6160dbc5bb8535f4d99d8bc29b8c742b, type: 3}
+    disabledSprite: {fileID: 21300004, guid: 6160dbc5bb8535f4d99d8bc29b8c742b, type: 3}
+  - buttonCount: 8
+    normalSprite: {fileID: 21300000, guid: a3af939d4ae58d842b0e45faf97caa35, type: 3}
+    highlightedSprite: {fileID: 21300002, guid: a3af939d4ae58d842b0e45faf97caa35,
+      type: 3}
+    pressedSprite: {fileID: 21300000, guid: a3af939d4ae58d842b0e45faf97caa35, type: 3}
+    selectedSprite: {fileID: 21300002, guid: a3af939d4ae58d842b0e45faf97caa35, type: 3}
+    disabledSprite: {fileID: 21300004, guid: a3af939d4ae58d842b0e45faf97caa35, type: 3}
+  - buttonCount: 9
+    normalSprite: {fileID: 21300000, guid: 24c3629afe5d45344aa1089bc6d49a04, type: 3}
+    highlightedSprite: {fileID: 21300002, guid: 24c3629afe5d45344aa1089bc6d49a04,
+      type: 3}
+    pressedSprite: {fileID: 21300000, guid: 24c3629afe5d45344aa1089bc6d49a04, type: 3}
+    selectedSprite: {fileID: 21300002, guid: 24c3629afe5d45344aa1089bc6d49a04, type: 3}
+    disabledSprite: {fileID: 21300004, guid: 24c3629afe5d45344aa1089bc6d49a04, type: 3}
+  - buttonCount: 10
+    normalSprite: {fileID: 21300000, guid: 82e758bed2285ce438db4262accb3fbe, type: 3}
+    highlightedSprite: {fileID: 21300002, guid: 82e758bed2285ce438db4262accb3fbe,
+      type: 3}
+    pressedSprite: {fileID: 21300000, guid: 82e758bed2285ce438db4262accb3fbe, type: 3}
+    selectedSprite: {fileID: 21300002, guid: 82e758bed2285ce438db4262accb3fbe, type: 3}
+    disabledSprite: {fileID: 21300004, guid: 82e758bed2285ce438db4262accb3fbe, type: 3}
+  - buttonCount: 11
+    normalSprite: {fileID: 21300000, guid: 0221d57ed29249542ba5fae7f2f5dca9, type: 3}
+    highlightedSprite: {fileID: 21300002, guid: 0221d57ed29249542ba5fae7f2f5dca9,
+      type: 3}
+    pressedSprite: {fileID: 21300000, guid: 0221d57ed29249542ba5fae7f2f5dca9, type: 3}
+    selectedSprite: {fileID: 21300002, guid: 0221d57ed29249542ba5fae7f2f5dca9, type: 3}
+    disabledSprite: {fileID: 21300004, guid: 0221d57ed29249542ba5fae7f2f5dca9, type: 3}
+  - buttonCount: 12
+    normalSprite: {fileID: 21300000, guid: 6bb947311725a044c979472b27d3cb73, type: 3}
+    highlightedSprite: {fileID: 21300002, guid: 6bb947311725a044c979472b27d3cb73,
+      type: 3}
+    pressedSprite: {fileID: 21300000, guid: 6bb947311725a044c979472b27d3cb73, type: 3}
+    selectedSprite: {fileID: 21300002, guid: 6bb947311725a044c979472b27d3cb73, type: 3}
+    disabledSprite: {fileID: 21300004, guid: 6bb947311725a044c979472b27d3cb73, type: 3}
+  - buttonCount: 13
+    normalSprite: {fileID: 21300000, guid: fe1c4cc0ed2e19c458f8c7bd0df74ed0, type: 3}
+    highlightedSprite: {fileID: 21300002, guid: fe1c4cc0ed2e19c458f8c7bd0df74ed0,
+      type: 3}
+    pressedSprite: {fileID: 21300000, guid: fe1c4cc0ed2e19c458f8c7bd0df74ed0, type: 3}
+    selectedSprite: {fileID: 21300002, guid: fe1c4cc0ed2e19c458f8c7bd0df74ed0, type: 3}
+    disabledSprite: {fileID: 21300004, guid: fe1c4cc0ed2e19c458f8c7bd0df74ed0, type: 3}
+  - buttonCount: 14
+    normalSprite: {fileID: 21300000, guid: 6d934e4c48719bb4aa4f4ad031e0b1a7, type: 3}
+    highlightedSprite: {fileID: 21300002, guid: 6d934e4c48719bb4aa4f4ad031e0b1a7,
+      type: 3}
+    pressedSprite: {fileID: 21300000, guid: 6d934e4c48719bb4aa4f4ad031e0b1a7, type: 3}
+    selectedSprite: {fileID: 21300002, guid: 6d934e4c48719bb4aa4f4ad031e0b1a7, type: 3}
+    disabledSprite: {fileID: 21300004, guid: 6d934e4c48719bb4aa4f4ad031e0b1a7, type: 3}
+  - buttonCount: 15
+    normalSprite: {fileID: 21300000, guid: 89184ef30a7bc9847a8b82f9c1cdaef3, type: 3}
+    highlightedSprite: {fileID: 21300002, guid: 89184ef30a7bc9847a8b82f9c1cdaef3,
+      type: 3}
+    pressedSprite: {fileID: 21300000, guid: 89184ef30a7bc9847a8b82f9c1cdaef3, type: 3}
+    selectedSprite: {fileID: 21300002, guid: 89184ef30a7bc9847a8b82f9c1cdaef3, type: 3}
+    disabledSprite: {fileID: 21300004, guid: 89184ef30a7bc9847a8b82f9c1cdaef3, type: 3}
