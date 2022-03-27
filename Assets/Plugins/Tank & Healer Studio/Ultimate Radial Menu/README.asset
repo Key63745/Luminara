@@ -16,9 +16,10 @@ MonoBehaviour:
   scriptReference: {fileID: 2800000, guid: 7a63f3d2899d9844498451653e70c733, type: 3}
   settings: {fileID: 2800000, guid: b909b03f159306f46bfc8f7dfc58ff39, type: 3}
   colorDefault: {r: 0, g: 0, b: 0, a: 1}
-  colorValueChanged: {r: 0, g: 1, b: 1, a: 1}
+  colorValueChanged: {r: 1, g: 1, b: 0, a: 1}
   colorButtonSelected: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   colorButtonUnselected: {r: 1, g: 1, b: 1, a: 1}
   colorTextBox: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  pageHistory: 0000000009000000
+  pageHistory: 00000000
   scrollValue: {x: 0, y: 0}
+  searchValue: 

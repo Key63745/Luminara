@@ -30,6 +30,29 @@ public class UltimateRadialMenuReadme : ScriptableObject
 	}
 	public VersionHistory[] versionHistory = new VersionHistory[]
 	{
+		// VERSION 2.2.3
+		new VersionHistory()
+		{
+			versionNumber = "2.2.3",
+			changes = new string[]
+			{
+				// GENERAL //
+				"Changed the calculations of the Ultimate Radial Menu Pointer code when using a Pointer Style to better adjust to the number of buttons",
+				"Added a quick register of all radial menu buttons in Awake to avoid any issues if the user tries to access and modify the buttons individually in their own Start functions",
+				// ADDED //
+				"Added complete support for the new Input System from Unity",
+				"Added new code for the Look At Input example to not conflict with the new Input System implementation",
+				"Added new option to the Ultimate Radial Menu Input Manager that gives more control to the user if they want to Hold or Toggle the radial menu state",
+				"",
+				// REMOVED //
+				"",
+				// BUG FIXES //
+				"Updated the code that unpacks the radial menu prefab to not try to unpack if it isn't the root of the prefab. Instead, a warning will be displayed on the editor when inside a prefab to explain that any unwanted behavior is caused by the prefab",
+				"Updated the input manager code to better handle the current Instance to reference",
+				"Fixed a rare issue that could occur when undoing actions when adding and removing buttons with certain options",
+				"",
+			}
+		},
 		// VERSION 2.2.2
 		new VersionHistory()
 		{
@@ -308,4 +331,6 @@ public class UltimateRadialMenuReadme : ScriptableObject
 	public List<int> pageHistory = new List<int>();
 	[HideInInspector]
 	public Vector2 scrollValue = new Vector2();
+	[HideInInspector]
+	public string searchValue = "";
 }

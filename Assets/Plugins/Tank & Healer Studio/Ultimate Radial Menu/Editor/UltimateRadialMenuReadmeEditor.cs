@@ -563,6 +563,14 @@ public class UltimateRadialMenuReadmeEditor : Editor
 			codeExample = "UltimateRadialMenuInputManager.Instance.SetMainCamera( newMainCamera );"
 		},
 	};
+
+	int ultimateRadialMenuPublicSearchIndex = 0;
+	int ultimateRadialMenuStaticSearchIndex = 0;
+	int ultimateRadialButtonInfoSearchIndex = 0;
+	int ultimateRadialMenuEventsSearchIndex = 0;
+	int ultimateRadialMenuInputManagerSearchIndex = 0;
+	List<DocumentationInfo> SearchResults = new List<DocumentationInfo>();
+	string searchValue = "";
 	
 	// END PAGE COMMENTS //
 	class EndPageComment
@@ -678,6 +686,7 @@ public class UltimateRadialMenuReadmeEditor : Editor
 		}
 		
 		randomComment = Random.Range( 0, endPageComments.Length );
+		searchValue = "";
 		
 		Undo.undoRedoPerformed += UndoRedoCallback;
 	}
@@ -1072,34 +1081,189 @@ public class UltimateRadialMenuReadmeEditor : Editor
 
 		GUILayout.Space( sectionSpace );
 
-		// UltimateRadialMenu.cs
-		if( GUILayout.Button( "UltimateRadialMenu.cs", itemHeaderStyle ) )
-		{
-			NavigateForward( 4 );
-			GUI.FocusControl( "" );
-		}
-		var rect = GUILayoutUtility.GetLastRect();
-		EditorGUIUtility.AddCursorRect( rect, MouseCursor.Link );
+		EditorGUILayout.BeginHorizontal();
+		EditorGUI.BeginChangeCheck();
+		searchValue = EditorGUILayout.TextField( "Search Documentation", searchValue );
+		EditorGUILayout.EndHorizontal();
+		if( EditorGUI.EndChangeCheck() )
+			DocumentationSearchResults();
+		
+		GUILayout.Space( sectionSpace );
 
-		// UltimateRadialButtonInfo.cs
-		if( GUILayout.Button( "UltimateRadialButtonInfo.cs", itemHeaderStyle ) )
+		if( searchValue != string.Empty )
 		{
-			NavigateForward( 5 );
-			GUI.FocusControl( "" );
-		}
-		rect = GUILayoutUtility.GetLastRect();
-		EditorGUIUtility.AddCursorRect( rect, MouseCursor.Link );
+			bool hasSearchHeader = false;
+			EditorGUILayout.LabelField( "Search Results:", sectionHeaderStyle );
+			if( SearchResults.Count > 0 )
+			{
+				for( int i = 0; i < SearchResults.Count; i++ )
+				{
+					if( i == ultimateRadialMenuPublicSearchIndex )
+					{
+						EditorGUILayout.LabelField( "<b>▼UltimateRadialMenu.cs▼</b>\n<i>Public Functions Listed Below</i>", paragraphStyle );
+						hasSearchHeader = true;
+					}
+					else if( i == ultimateRadialMenuStaticSearchIndex )
+					{
+						if( hasSearchHeader )
+							EditorGUILayout.Space();
 
-		// UltimateRadialMenuInputManager.cs
-		if( GUILayout.Button( "UltimateRadialMenuInputManager.cs", itemHeaderStyle ) )
-		{
-			NavigateForward( 6 );
-			GUI.FocusControl( "" );
+						EditorGUILayout.LabelField( "<b>▼UltimateRadialMenu.cs▼</b>\n<i>Static Functions Listed Below</i>", paragraphStyle );
+						hasSearchHeader = true;
+					}
+					else if( i == ultimateRadialButtonInfoSearchIndex )
+					{
+						if( hasSearchHeader )
+							EditorGUILayout.Space();
+
+						EditorGUILayout.LabelField( "<b>▼UltimateRadialButtonInfo.cs▼</b>\n<i>Public Functions Listed Below</i>", paragraphStyle );
+						hasSearchHeader = true;
+					}
+					else if( i == ultimateRadialMenuEventsSearchIndex )
+					{
+						if( hasSearchHeader )
+							EditorGUILayout.Space();
+
+						EditorGUILayout.LabelField( "<b>▼UltimateRadialMenu.cs▼</b>\n<i>Events Listed Below</i>", paragraphStyle );
+						hasSearchHeader = true;
+					}
+					else if( i == ultimateRadialMenuInputManagerSearchIndex )
+					{
+						if( hasSearchHeader )
+							EditorGUILayout.Space();
+
+						EditorGUILayout.LabelField( "<b>▼UltimateRadialMenuInputManager.cs▼</b>\n<i>Public Functions Listed Below</i>", paragraphStyle );
+						hasSearchHeader = true;
+					}
+
+					ShowDocumentation( SearchResults[ i ] );
+				}
+			}
 		}
-		rect = GUILayoutUtility.GetLastRect();
-		EditorGUIUtility.AddCursorRect( rect, MouseCursor.Link );
+		else
+		{
+			// UltimateRadialMenu.cs
+			if( GUILayout.Button( "UltimateRadialMenu.cs", itemHeaderStyle ) )
+			{
+				NavigateForward( 4 );
+				GUI.FocusControl( "" );
+			}
+			var rect = GUILayoutUtility.GetLastRect();
+			EditorGUIUtility.AddCursorRect( rect, MouseCursor.Link );
+
+			// UltimateRadialButtonInfo.cs
+			if( GUILayout.Button( "UltimateRadialButtonInfo.cs", itemHeaderStyle ) )
+			{
+				NavigateForward( 5 );
+				GUI.FocusControl( "" );
+			}
+			rect = GUILayoutUtility.GetLastRect();
+			EditorGUIUtility.AddCursorRect( rect, MouseCursor.Link );
+
+			// UltimateRadialMenuInputManager.cs
+			if( GUILayout.Button( "UltimateRadialMenuInputManager.cs", itemHeaderStyle ) )
+			{
+				NavigateForward( 6 );
+				GUI.FocusControl( "" );
+			}
+			rect = GUILayoutUtility.GetLastRect();
+			EditorGUIUtility.AddCursorRect( rect, MouseCursor.Link );
+		}
 
 		EndPage();
+	}
+
+	void DocumentationSearchResults ()
+	{
+		SearchResults = new List<DocumentationInfo>();
+		ultimateRadialMenuPublicSearchIndex = -1;
+		ultimateRadialMenuStaticSearchIndex = -1;
+
+		if( searchValue == string.Empty )
+			return;
+
+		// PUBLIC FUNCTIONS //
+		bool codeFound = false;
+		ultimateRadialMenuPublicSearchIndex = 0;
+		for( int i = 0; i < UltimateRadialMenu_PublicFunctions.Length; i++ )
+			CheckDocumentationForRelevance( UltimateRadialMenu_PublicFunctions[ i ], ref codeFound );
+
+		if( !codeFound )
+			ultimateRadialMenuPublicSearchIndex = -1;
+
+		// STATIC FUNCTIONS //
+		codeFound = false;
+		ultimateRadialMenuStaticSearchIndex = SearchResults.Count;
+		for( int i = 0; i < UltimateRadialMenu_StaticFunctions.Length; i++ )
+			CheckDocumentationForRelevance( UltimateRadialMenu_StaticFunctions[ i ], ref codeFound );
+
+		if( !codeFound )
+			ultimateRadialMenuStaticSearchIndex = -1;
+
+		// BUTTON INFO PUBLIC FUNCTIONS //
+		codeFound = false;
+		ultimateRadialButtonInfoSearchIndex = SearchResults.Count;
+		for( int i = 0; i < UltimateRadialButtonInfo_PublicFunctions.Length; i++ )
+			CheckDocumentationForRelevance( UltimateRadialButtonInfo_PublicFunctions[ i ], ref codeFound );
+
+		if( !codeFound )
+			ultimateRadialButtonInfoSearchIndex = -1;
+
+		// EVENTS //
+		codeFound = false;
+		ultimateRadialMenuEventsSearchIndex = SearchResults.Count;
+		for( int i = 0; i < UltimateRadialMenu_Events.Length; i++ )
+			CheckDocumentationForRelevance( UltimateRadialMenu_Events[ i ], ref codeFound );
+		if( !codeFound )
+			ultimateRadialMenuEventsSearchIndex = -1;
+
+		// INPUT MANAGER PUBLIC FUNCTIONS //
+		codeFound = false;
+		ultimateRadialMenuInputManagerSearchIndex = SearchResults.Count;
+		for( int i = 0; i < UltimateRadialMenuInputManager_PublicFunctions.Length; i++ )
+			CheckDocumentationForRelevance( UltimateRadialMenuInputManager_PublicFunctions[ i ], ref codeFound );
+		if( !codeFound )
+			ultimateRadialMenuInputManagerSearchIndex = -1;
+	}
+
+	void CheckDocumentationForRelevance ( DocumentationInfo info, ref bool codeFound )
+	{
+		// Check function name.
+		if( info.functionName.IndexOf( searchValue, System.StringComparison.OrdinalIgnoreCase ) >= 0 )
+		{
+			SearchResults.Add( info );
+			codeFound = true;
+			return;
+		}
+
+		// Check function description.
+		if( info.description.IndexOf( searchValue, System.StringComparison.OrdinalIgnoreCase ) >= 0 )
+		{
+			SearchResults.Add( info );
+			codeFound = true;
+			return;
+		}
+
+		// Parameter
+		if( info.parameter != null && info.parameter.Length > 0 )
+		{
+			for( int n = 0; n < info.parameter.Length; n++ )
+			{
+				if( info.parameter[ n ].IndexOf( searchValue, System.StringComparison.OrdinalIgnoreCase ) >= 0 )
+				{
+					SearchResults.Add( info );
+					codeFound = true;
+					return;
+				}
+			}
+		}
+
+		// Return type
+		if( info.returnType.IndexOf( searchValue, System.StringComparison.OrdinalIgnoreCase ) >= 0 )
+		{
+			SearchResults.Add( info );
+			return;
+		}
 	}
 
 	void Documentation_UltimateRadialMenu ()

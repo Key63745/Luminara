@@ -110,6 +110,10 @@ public class UltimateRadialButtonInfo
 		// If the radial button is set to display the name and the text component is assigned, then apply the name.
 		if( radialButton.radialMenu.displayNameOnButton && radialButton.text != null )
 			radialButton.text.text = name;
+
+		// Refresh the name text.
+		if( radialButton.radialMenu.displayButtonName && radialButton.radialMenu.nameText != null && radialButton.radialMenu.CurrentButtonIndex == GetButtonIndex )
+			radialButton.radialMenu.nameText.text = !radialButton.buttonDisabled ? radialButton.name : "";
 	}
 
 	/// <summary>
@@ -127,6 +131,10 @@ public class UltimateRadialButtonInfo
 
 		// Apply the description to the radial button.
 		radialButton.description = description;
+
+		// Refresh the description text.
+		if( radialButton.radialMenu.displayButtonDescription && radialButton.radialMenu.descriptionText != null && radialButton.radialMenu.CurrentButtonIndex == GetButtonIndex )
+			radialButton.radialMenu.descriptionText.text = !radialButton.buttonDisabled ? radialButton.description : "";
 	}
 
 	/// <summary>
@@ -241,7 +249,7 @@ public class UltimateRadialButtonInfo
 			if( radialButton == null || radialButton.radialMenu == null )
 			{
 				// Inform the user that there is no radial button and return true for there being an error.
-				Debug.LogWarning( "Ultimate Radial Button\nNo Radial Menu Button component has been assigned to this Ultimate Radial Button. Have you initialized a new Radial Menu Button using the AddRadialMenuButtonAtIndex function?" );
+				Debug.LogWarning( "Ultimate Radial Button\nNo Radial Menu Button component has been assigned to this Ultimate Radial Button. Have you initialized a new Radial Menu Button using the RegisterToRadialMenu function?" );
 				return true;
 			}
 			return false;

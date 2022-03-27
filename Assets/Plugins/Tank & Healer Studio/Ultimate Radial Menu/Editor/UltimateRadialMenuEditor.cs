@@ -137,6 +137,9 @@ public class UltimateRadialMenuEditor : Editor
 
 	// EDITOR STYLES //
 	GUIStyle collapsableSectionStyle = new GUIStyle();
+
+	// MISC //
+	bool prefabRootError = false;
 	
 
 	void OnEnable ()
@@ -154,8 +157,17 @@ public class UltimateRadialMenuEditor : Editor
 			ColorUtility.TryParseHtmlString( EditorPrefs.GetString( "URM_ColorTextBoxHex" ), out colorTextBox );
 		}
 
+		prefabRootError = false;
 		if( PrefabUtility.GetPrefabAssetType( targ.gameObject ) != PrefabAssetType.NotAPrefab )
-			PrefabUtility.UnpackPrefabInstance( targ.gameObject, PrefabUnpackMode.Completely, InteractionMode.UserAction );
+		{
+			if( PrefabUtility.GetOutermostPrefabInstanceRoot( targ.gameObject ) != targ.gameObject )
+			{
+				if( PrefabUtility.GetOutermostPrefabInstanceRoot( targ.gameObject ) != null )
+					prefabRootError = true;
+			}
+			else if( PrefabUtility.GetOutermostPrefabInstanceRoot( targ.gameObject ) == targ.gameObject )
+				PrefabUtility.UnpackPrefabInstance( targ.gameObject, PrefabUnpackMode.Completely, InteractionMode.UserAction );
+		}
 	}
 
 	void OnDisable ()
@@ -562,6 +574,11 @@ public class UltimateRadialMenuEditor : Editor
 			Repaint();
 			return;
 		}
+		
+		if( prefabRootError )
+		{
+			EditorGUILayout.HelpBox( "The Ultimate Radial Menu is not the root of this prefab and therefore cannot be unpacked properly.\n\nThis can cause some strange behavior, as well as not being able to remove buttons in the editor that are part of the prefab.\n\nThis is caused because of Unity's new prefab manager. Please remove the Ultimate Radial Menu from the prefab in order to edit it.", MessageType.Error );
+		}
 
 		if( DisplayHeaderDropdown( "Radial Menu Positioning", "URM_RadialMenuPositioning" ) )
 		{
@@ -713,7 +730,6 @@ public class UltimateRadialMenuEditor : Editor
 					for( int i = 0; i < targ.UltimateRadialButtonList.Count; i++ )
 					{
 						Undo.RecordObject( targ.UltimateRadialButtonList[ i ].radialImage, "Update Radial Button Sprite" );
-
 						if( targ.normalSprite != null )
 						{
 							if( !targ.UltimateRadialButtonList[ i ].buttonDisabled || !targ.spriteSwap )
@@ -730,6 +746,10 @@ public class UltimateRadialMenuEditor : Editor
 							if( !targ.UltimateRadialButtonList[ i ].buttonDisabled || !targ.colorChange )
 								targ.UltimateRadialButtonList[ i ].radialImage.color = Color.clear;
 						}
+						
+						// This is added just in case the user has not broken the prefab, at least we can keep the sprites up to date.
+						if( prefabRootError )
+							PrefabUtility.RecordPrefabInstancePropertyModifications( targ.UltimateRadialButtonList[ i ].radialImage );
 					}
 				}
 			}
@@ -2222,8 +2242,6 @@ public class UltimateRadialMenuEditor : Editor
 			serializedObject.FindProperty( string.Format( "UltimateRadialButtonList.Array.data[{0}].icon", index ) ).objectReferenceValue = iconImage;
 			serializedObject.FindProperty( string.Format( "UltimateRadialButtonList.Array.data[{0}].iconTransform", index ) ).objectReferenceValue = iconTransform;
 			serializedObject.ApplyModifiedProperties();
-
-			Undo.RegisterCreatedObjectUndo( newIcon, "Create Icon Objects" );
 		}
 
 		if( targ.useButtonText )
@@ -2259,7 +2277,6 @@ public class UltimateRadialMenuEditor : Editor
 			
 			serializedObject.FindProperty( string.Format( "UltimateRadialButtonList.Array.data[{0}].text", index ) ).objectReferenceValue = textComponent;
 			serializedObject.ApplyModifiedProperties();
-			Undo.RegisterCreatedObjectUndo( newText, "Create Text Objects" );
 		}
 
 		serializedObject.FindProperty( string.Format( "UltimateRadialButtonList.Array.data[{0}].useIconUnique", index ) ).boolValue = false;
@@ -2291,13 +2308,13 @@ public class UltimateRadialMenuEditor : Editor
 
 	void RemoveRadialButton ( int index )
 	{
-		Undo.DestroyObjectImmediate( targ.UltimateRadialButtonList[ index ].radialImage.gameObject );
+		GameObject objToDestroy = targ.UltimateRadialButtonList[ index ].radialImage.gameObject;
 		menuButtonCount.intValue = menuButtonCount.intValue - 1;
 		serializedObject.FindProperty( "UltimateRadialButtonList" ).DeleteArrayElementAtIndex( index );
-		serializedObject.ApplyModifiedProperties();
-		
 		buttonInputAngle.floatValue = 1.0f;
 		serializedObject.ApplyModifiedProperties();
+
+		Undo.DestroyObjectImmediate( objToDestroy );
 
 		if( index == targ.UltimateRadialButtonList.Count )
 			radialNameListIndex = targ.UltimateRadialButtonList.Count - 1;
@@ -2382,7 +2399,7 @@ public class UltimateRadialMenuEditor : Editor
 					break;
 				}
 			}
-			
+
 			normalSprite.objectReferenceValue = targ.radialMenuStyle.RadialMenuStyles[ CurrentStyleIndex ].normalSprite;
 			serializedObject.ApplyModifiedProperties();
 
@@ -2394,7 +2411,7 @@ public class UltimateRadialMenuEditor : Editor
 				disabledSprite.objectReferenceValue = targ.radialMenuStyle.RadialMenuStyles[ CurrentStyleIndex ].disabledSprite;
 				serializedObject.ApplyModifiedProperties();
 			}
-
+			
 			for( int i = 0; i < targ.UltimateRadialButtonList.Count; i++ )
 			{
 				Undo.RecordObject( targ.UltimateRadialButtonList[ i ].radialImage, "Update Radial Button Style" );
@@ -2403,11 +2420,40 @@ public class UltimateRadialMenuEditor : Editor
 					targ.UltimateRadialButtonList[ i ].radialImage.sprite = targ.disabledSprite;
 				else
 					targ.UltimateRadialButtonList[ i ].radialImage.sprite = targ.normalSprite;
-				
+
 				if( targ.UltimateRadialButtonList[ i ].buttonDisabled && targ.colorChange )
 					targ.UltimateRadialButtonList[ i ].radialImage.color = targ.disabledColor;
 				else
 					targ.UltimateRadialButtonList[ i ].radialImage.color = targ.normalColor;
+
+				// EDIT: This seems to work. However, the strange thing is that this "Record" is done AFTER the mod, not before like everything else.
+				if( prefabRootError )
+				{
+					Debug.Log( "Record prop mod." );
+					PrefabUtility.RecordPrefabInstancePropertyModifications( targ.UltimateRadialButtonList[ i ].radialImage );
+				}
+			}
+		}
+		else
+		{
+			for( int i = 0; i < targ.UltimateRadialButtonList.Count; i++ )
+			{
+				if( targ.normalSprite != null )
+				{
+					if( !targ.UltimateRadialButtonList[ i ].buttonDisabled || !targ.spriteSwap )
+						targ.UltimateRadialButtonList[ i ].radialImage.sprite = targ.normalSprite;
+
+					if( !targ.UltimateRadialButtonList[ i ].buttonDisabled || !targ.colorChange )
+						targ.UltimateRadialButtonList[ i ].radialImage.color = normalColor.colorValue;
+				}
+				else
+				{
+					if( !targ.UltimateRadialButtonList[ i ].buttonDisabled || !targ.spriteSwap )
+						targ.UltimateRadialButtonList[ i ].radialImage.sprite = null;
+
+					if( !targ.UltimateRadialButtonList[ i ].buttonDisabled || !targ.colorChange )
+						targ.UltimateRadialButtonList[ i ].radialImage.color = Color.clear;
+				}
 			}
 		}
 	}
@@ -2415,7 +2461,15 @@ public class UltimateRadialMenuEditor : Editor
 	void OnSceneGUI ()
 	{
 		if( Selection.activeGameObject == null || Application.isPlaying || Selection.objects.Length > 1 || parentCanvas == null )
+		{
+			if( parentCanvas == null )
+			{
+				CheckForParentCanvas();
+				StoreReferences();
+			}
+
 			return;
+		}
 		
 		RectTransform trans = targ.transform.GetComponent<RectTransform>();
 		Vector3 center = trans.position;
@@ -2668,7 +2722,11 @@ public class UltimateRadialMenuEditor : Editor
 		{
 			GameObject eventSystem = new GameObject( "EventSystem" );
 			esys = eventSystem.AddComponent<EventSystem>();
+#if ENABLE_INPUT_SYSTEM
+			eventSystem.AddComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
+#else
 			eventSystem.AddComponent<StandaloneInputModule>();
+#endif
 			eventSystem.AddComponent<UltimateRadialMenuInputManager>();
 
 			Undo.RegisterCreatedObjectUndo( eventSystem, "Create " + eventSystem.name );
@@ -2721,5 +2779,16 @@ public class UltimateRadialMenuEditor : Editor
 		Undo.RegisterCreatedObjectUndo( newCanvasObject, "Create New Canvas" );
 		Undo.SetTransformParent( child.transform, newCanvasObject.transform, "Create New Canvas" );
 		CheckEventSystem();
+	}
+
+	[MenuItem( "GameObject/UI/Ultimate Radial Menu" )]
+	public static void CreateUltimateRadialMenuFromScratch ()
+	{
+		GameObject ultimateRadialMenu = new GameObject( "Ultimate Radial Menu" );
+		ultimateRadialMenu.AddComponent<RectTransform>();
+		ultimateRadialMenu.AddComponent<CanvasGroup>();
+		ultimateRadialMenu.AddComponent<UltimateRadialMenu>();
+
+		Selection.activeGameObject = ultimateRadialMenu;
 	}
 }

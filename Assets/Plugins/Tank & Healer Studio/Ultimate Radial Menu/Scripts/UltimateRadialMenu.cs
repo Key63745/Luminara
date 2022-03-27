@@ -37,7 +37,7 @@ public class UltimateRadialMenu : MonoBehaviour
 	{
 		get
 		{
-			return 360f / menuButtonCount;
+			return 360.0f / menuButtonCount;
 		}
 	}
 	/// <summary>
@@ -165,7 +165,7 @@ public class UltimateRadialMenu : MonoBehaviour
 	public float minRange = 0.25f, maxRange = 1.5f;
 	public bool infiniteMaxRange = false;
 	public float buttonInputAngle = 0.0f;
-
+	
 	// RADIAL MENU SETTINGS //
 	public UltimateRadialMenuStyle radialMenuStyle;
 	int currentStyleIndex;
@@ -344,7 +344,7 @@ public class UltimateRadialMenu : MonoBehaviour
 		/// </summary>
 		/// <param name="inputAngle">The current input angle.</param>
 		public bool IsInAngle ( float inputAngle )
-		{	
+		{
 			// If the angle is within this buttons range, then return true.
 			if( Mathf.Abs( inputAngle - angle ) <= angleRange || Mathf.Abs( ( inputAngle - 360f ) - angle ) <= angleRange || Mathf.Abs( inputAngle - ( angle - 360f ) ) <= angleRange )
 				return true;
@@ -733,15 +733,30 @@ public class UltimateRadialMenu : MonoBehaviour
 			// Assign this radial button to the buttonInfo so that it can reference this button.
 			buttonInfo.radialButton = this;
 
-			// Register the button info values.
-			id = buttonInfo.id;
-			key = buttonInfo.key;
-			name = buttonInfo.name;
-			description = buttonInfo.description;
+			// If the button info ID is assigned, then copy the information over. Else copy the current button data to the buttonInfo.
+			if( buttonInfo.id == 0 )
+				buttonInfo.id = id;
+			else
+				id = buttonInfo.id;
 
-			// Subscribe the buttonInfo clear function so that it can be notified when this radial button is cleared.
-			OnClearButtonInformation += buttonInfo.OnClearButtonInformation;
+			// If the button info key is assigned, then copy the information over. Else copy the current button data to the buttonInfo.
+			if( buttonInfo.key == string.Empty )
+				buttonInfo.key = key;
+			else
+				key = buttonInfo.key;
 
+			// If the button info name is assigned, then copy the information over. Else copy the current button data to the buttonInfo.
+			if( buttonInfo.name == string.Empty )
+				buttonInfo.name = name;
+			else
+				name = buttonInfo.name;
+
+			// If the button info description is assigned, then copy the information over. Else copy the current button data to the buttonInfo.
+			if( buttonInfo.description == string.Empty )
+				buttonInfo.description = description;
+			else
+				description = buttonInfo.description;
+			
 			// If the icon image is assigned and the user wants to show the icon...
 			if( icon != null && radialMenu.useButtonIcon )
 			{
@@ -751,14 +766,23 @@ public class UltimateRadialMenu : MonoBehaviour
 					icon.sprite = buttonInfo.icon;
 					icon.color = radialMenu.iconNormalColor;
 				}
+				// Else if the icon of the button is assigned, then assign this data to the button info.
+				else if( icon.sprite != null )
+				{
+					buttonInfo.icon = icon.sprite;
+					icon.color = radialMenu.iconNormalColor;
+				}
 				// Else just set the color of the icon image to clear.
 				else
 					icon.color = Color.clear;
 			}
-			
+
 			// If the text isn't null then assign the radial info text.
 			if( text != null && radialMenu.displayNameOnButton )
 				text.text = buttonInfo.name;
+
+			// Subscribe the buttonInfo clear function so that it can be notified when this radial button is cleared.
+			OnClearButtonInformation += buttonInfo.OnClearButtonInformation;
 		}
 
 		/// <summary>
@@ -861,6 +885,9 @@ public class UltimateRadialMenu : MonoBehaviour
 	/// </summary>
 	public event Action<int> OnRadialMenuButtonCountModified;
 	
+	//EDIT:
+	public bool iconsRotation = false;
+	
 
 	void Awake ()
 	{
@@ -906,10 +933,25 @@ public class UltimateRadialMenu : MonoBehaviour
 			RadialMenuActive = true;
 			Interactable = true;
 		}
+
+		// Make sure to store the reference of this radial menu to all the buttons. This is to avoid errors from the users trying to store buttonInfo instantly before the radial menu can get set up properly.
+		for( int i = 0; i < UltimateRadialButtonList.Count; i++ )
+			UltimateRadialButtonList[ i ].radialMenu = this;
 	}
 
 	void Start ()
 	{
+#if ENABLE_INPUT_SYSTEM && UNITY_EDITOR
+		EventSystem[] allEventSystems = FindObjectsOfType<EventSystem>();
+		for( int i = 0; i < allEventSystems.Length; i++ )
+		{
+			if( allEventSystems[ i ].GetComponent<StandaloneInputModule>() )
+			{
+				Destroy( allEventSystems[ i ].GetComponent<StandaloneInputModule>() );
+				allEventSystems[ i ].gameObject.AddComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
+			}
+		}
+#endif
 		// If the game is running, then return.
 		if( !Application.isPlaying )
 			return;
@@ -956,7 +998,7 @@ public class UltimateRadialMenu : MonoBehaviour
 			ParentCanvas.gameObject.AddComponent<UltimateRadialMenuScreenSizeUpdater>();
 	}
 
-	#if UNITY_EDITOR
+#if UNITY_EDITOR
 	void Update ()
 	{
 		// If the application is not playing (in edit mode of Unity) update the positioning.
@@ -1017,6 +1059,42 @@ public class UltimateRadialMenu : MonoBehaviour
 	/// <param name="inputUp">The state of the input being released this frame.</param>
 	public void ProcessInput ( Vector2 input, float distance, bool inputDown, bool inputUp )
 	{
+		// EDIT:
+		if( iconsRotation )
+		{
+			for( int i = 0; i < UltimateRadialButtonList.Count; i++ )
+			{
+				if( UltimateRadialButtonList[ i ].icon == null )
+					continue;
+
+				float rotationMod = iconRotation;
+
+				if( UltimateRadialButtonList[ i ].useIconUnique )
+					rotationMod = UltimateRadialButtonList[ i ].iconRotation;
+
+				// If the user wants to use local rotation then increase the rotation mod by the current button's rotation.
+				if( iconLocalRotation )
+				{
+					// Store the image rotation.
+					//float imageRotation = UltimateRadialButtonList[ i ].radialImage.rectTransform.localRotation.eulerAngles.z;
+					rotationMod += UltimateRadialButtonList[ i ].radialImage.rectTransform.localRotation.eulerAngles.z;
+
+					// If the rotation is less than zero then add 360 to get a positive number.
+					if( rotationMod < 0 )
+						rotationMod += 360;
+
+					// If the rotation is more than 90 degrees and less than 270, then increase the rotation by 180 to flip the icon.
+					if( rotationMod > 90 && rotationMod < 270 )
+						rotationMod += 180;
+				}
+				// Else the user wants world space rotation so store the rotation modifier as the buttons rotation.
+				else
+					rotationMod = 0;
+
+				// Apply the rotation to the icon.
+				UltimateRadialButtonList[ i ].icon.rectTransform.rotation = Quaternion.Euler( canvasRectTrans.rotation.eulerAngles + new Vector3( 0, 0, rotationMod ) );
+			}
+		}
 		// If the radial menu is inactive then return.
 		if( !RadialMenuActive || !Interactable )
 			return;
@@ -1037,7 +1115,7 @@ public class UltimateRadialMenu : MonoBehaviour
 		
 		// Store the current angle so that other scripts can get it.
 		GetCurrentInputAngle = angle;
-
+		
 		// Loop through all of the radial menu buttons...
 		for( int i = 0; i < UltimateRadialButtonList.Count; i++ )
 		{
@@ -1183,7 +1261,7 @@ public class UltimateRadialMenu : MonoBehaviour
 		// Store the InputInRange value for the next calculation.
 		inputInRangeLastFrame = InputInRange;
 	}
-
+	
 	/// <summary>
 	/// Resets the Ultimate Radial Menu Buttons and all the enabled options to their default state.
 	/// </summary>
@@ -1822,68 +1900,34 @@ public class UltimateRadialMenu : MonoBehaviour
 
 				// If the highlighted position modifier is assigned, then calculate the position.
 				if( positionModifier != 0 )
-				{
-					// Configure the active position for the button.
-					Vector3 activePosition = Vector3.zero;
-
-					// Again, voodoo math, but the difference is that it is multiplying the radius modifier by the position modifier that the user has set.
-					activePosition.x += ( Mathf.Cos( ( ( angleInRadians * i ) ) + startingRotation + ( centerAngleOffset * Mathf.Deg2Rad ) + ( angleInRadians / 2 ) ) * ( buttonRadius + ( buttonRadius * positionModifier ) ) );
-					activePosition.y += ( Mathf.Sin( ( ( angleInRadians * i ) ) + startingRotation + ( centerAngleOffset * Mathf.Deg2Rad ) + ( angleInRadians / 2 ) ) * ( buttonRadius + ( buttonRadius * positionModifier ) ) );
-					
-					// Store the active position as the active position of the radial button.
-					UltimateRadialButtonList[ i ].highlightedPosition = activePosition;
-				}
+					UltimateRadialButtonList[ i ].highlightedPosition = normalPosition + ( normalPosition.normalized * ( buttonRadius * positionModifier ) );
 				// Else assign the normal position.
 				else
 					UltimateRadialButtonList[ i ].highlightedPosition = normalPosition;
 
 				// If the pressed position modifier is assigned, then calculate the position.
 				if( pressedPositionModifier != 0 )
-				{
-					// Configure the pressed position for the button.
-					Vector3 pressedPosition = Vector3.zero;
-
-					// Again, voodoo math, but the difference is that it is multiplying the radius modifier by the pressed position modifier that the user has set.
-					pressedPosition.x += ( Mathf.Cos( ( ( angleInRadians * i ) ) + startingRotation + ( centerAngleOffset * Mathf.Deg2Rad ) + ( angleInRadians / 2 ) ) * ( buttonRadius + ( buttonRadius * selectedPositionModifier ) ) );
-					pressedPosition.y += ( Mathf.Sin( ( ( angleInRadians * i ) ) + startingRotation + ( centerAngleOffset * Mathf.Deg2Rad ) + ( angleInRadians / 2 ) ) * ( buttonRadius + ( buttonRadius * selectedPositionModifier ) ) );
-					
-					// Store the pressed position as the pressed position of the radial button.
-					UltimateRadialButtonList[ i ].pressedPosition = pressedPosition;
-				}
+					UltimateRadialButtonList[ i ].pressedPosition = normalPosition + ( normalPosition.normalized * ( buttonRadius * pressedPositionModifier ) );
 				// Else assign the normal position.
 				else
 					UltimateRadialButtonList[ i ].pressedPosition = normalPosition;
 
+				// If the selected position modifier is assigned, then calculate the position.
 				if( selectedPositionModifier != 0 )
-				{
-					// Configure the selected position for the button.
-					Vector3 selectedPosition = Vector3.zero;
-
-					// Again, voodoo math, but the difference is that it is multiplying the radius modifier by the selected position modifier that the user has set.
-					selectedPosition.x += ( Mathf.Cos( ( ( angleInRadians * i ) ) + startingRotation + ( centerAngleOffset * Mathf.Deg2Rad ) + ( angleInRadians / 2 ) ) * ( buttonRadius + ( buttonRadius * selectedPositionModifier ) ) );
-					selectedPosition.y += ( Mathf.Sin( ( ( angleInRadians * i ) ) + startingRotation + ( centerAngleOffset * Mathf.Deg2Rad ) + ( angleInRadians / 2 ) ) * ( buttonRadius + ( buttonRadius * selectedPositionModifier ) ) );
-					
-					// Store the selected position as the selected position of the radial button.
-					UltimateRadialButtonList[ i ].selectedPosition = selectedPosition;
-				}
+					UltimateRadialButtonList[ i ].selectedPosition = normalPosition + ( normalPosition.normalized * ( buttonRadius * selectedPositionModifier ) );
 				// Else assign the normal position.
 				else
 					UltimateRadialButtonList[ i ].selectedPosition = normalPosition;
 
+				// If the disabled position modifier is assigned...
 				if( disabledPositionModifier != 0 )
 				{
-					// Configure the disabled position for the button.
-					Vector3 disabledPosition = Vector3.zero;
+					// Calculate the disabled position.
+					UltimateRadialButtonList[ i ].disabledPosition = normalPosition + ( normalPosition.normalized * ( buttonRadius * disabledPositionModifier ) );
 
-					// Again, voodoo math, but the difference is that it is multiplying the radius modifier by the disabled position modifier that the user has set.
-					disabledPosition.x += ( Mathf.Cos( ( ( angleInRadians * i ) ) + startingRotation + ( centerAngleOffset * Mathf.Deg2Rad ) + ( angleInRadians / 2 ) ) * ( buttonRadius + ( buttonRadius * disabledPositionModifier ) ) );
-					disabledPosition.y += ( Mathf.Sin( ( ( angleInRadians * i ) ) + startingRotation + ( centerAngleOffset * Mathf.Deg2Rad ) + ( angleInRadians / 2 ) ) * ( buttonRadius + ( buttonRadius * disabledPositionModifier ) ) );
-					
-					// Store the disabled position as the disabled position of the radial button.
-					UltimateRadialButtonList[ i ].disabledPosition = disabledPosition;
-
+					// If this button is currently disabled, then apply the position.
 					if( UltimateRadialButtonList[ i ].buttonDisabled )
-						UltimateRadialButtonList[ i ].buttonTransform.localPosition = disabledPosition;
+						UltimateRadialButtonList[ i ].buttonTransform.localPosition = UltimateRadialButtonList[ i ].disabledPosition;
 				}
 				// Else assign the normal position.
 				else

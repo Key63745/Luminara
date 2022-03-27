@@ -161,7 +161,7 @@ namespace UltimateRadialMenuExample.CharacterInventory2D
 		void OnRadialMenuButtonCountModified ( int i )
 		{
 			if( !hasPickedUpItems )
-				tutorialText.text = "Great! Now press the SPACE BAR to open your radial menu. Then click on the item that you want to use.";
+				tutorialText.text = "Great! Now press the TAB key to open your radial menu. Then click on the item that you want to use.";
 
 			hasPickedUpItems = true;
 		}

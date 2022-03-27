@@ -46,6 +46,9 @@ public class GunWheelRadialMenuHandler : MonoBehaviour
 	}
 	CurrentMenu currentMenu = CurrentMenu.LightWeapons;
 
+	// Navigation Info
+	public Text navigateLeftText, navigateRightText;
+
 
 	void Start ()
 	{
@@ -106,62 +109,67 @@ public class GunWheelRadialMenuHandler : MonoBehaviour
 		horizontalInputMax = weaponRadialMenu.BasePosition.x + ( weaponRadialMenu.GetComponent<RectTransform>().sizeDelta.x / 2 );
 	}
 
-	void Update ()
+	public void NavigateLeft ()
 	{
-		// If the menu is active, but the input is not within range...
-		if( weaponRadialMenu.RadialMenuActive && !weaponRadialMenu.InputInRange )
+		if( !weaponRadialMenu.RadialMenuActive )
+			return;
+
+		if( currentMenu == CurrentMenu.UtilityWeapons )
+			return;
+
+		if( currentMenu == CurrentMenu.LightWeapons )
 		{
-			// And the left mouse button is caught down...
-			if( Input.GetMouseButtonDown( 0 ) )
-			{
-				// Store the mouse position.
-				Vector2 mousePosition = Input.mousePosition;
+			// Then set the current menu to Utility since it is the one that we are moving to.
+			currentMenu = CurrentMenu.UtilityWeapons;
 
-				// If the mouse position is less than the min input range, then the user is wanting to move to the menu on the left...
-				if( mousePosition.x < horizontalInputMin )
-				{
-					// If the current menu is the Light Weapons...
-					if( currentMenu == CurrentMenu.LightWeapons )
-					{
-						// Then set the current menu to Utility since it is the one that we are moving to.
-						currentMenu = CurrentMenu.UtilityWeapons;
+			// Populate the radial menu with the Utility Weapons.
+			PopulateRadialMenu( UtilityWeapons, "Utility Weapons" );
 
-						// Populate the radial menu with the Utility Weapons.
-						PopulateRadialMenu( UtilityWeapons, "Utility Weapons" );
-					}
-					// Else if the current menu is the Heavy Weapons...
-					else if( currentMenu == CurrentMenu.HeavyWeapons )
-					{
-						// Set the current menu to Light Weapons.
-						currentMenu = CurrentMenu.LightWeapons;
+			navigateLeftText.text = "";
+			navigateRightText.text = ">\nLight\n>";
+		}
+		else
+		{
+			// Set the current menu to Light Weapons.
+			currentMenu = CurrentMenu.LightWeapons;
 
-						// Populate the radial menu with the Light Weapons.
-						PopulateRadialMenu( LightWeapons, "Light Weapons" );
-					}
-				}
-				// Else if the mouse position is greater than the max input range, then the user wants to move to the right, so...
-				else if( mousePosition.x > horizontalInputMax )
-				{
-					// If the current menu is the Light Weapons...
-					if( currentMenu == CurrentMenu.LightWeapons )
-					{
-						// Set the current menu to heavy.
-						currentMenu = CurrentMenu.HeavyWeapons;
+			// Populate the radial menu with the Light Weapons.
+			PopulateRadialMenu( LightWeapons, "Light Weapons" );
 
-						// Populate the radial menu with the heavy weapons.
-						PopulateRadialMenu( HeavyWeapons, "Heavy Weapons" );
-					}
-					// Else if the current menu is the Utility weapons...
-					else if( currentMenu == CurrentMenu.UtilityWeapons )
-					{
-						// Change the current menu to Light.
-						currentMenu = CurrentMenu.LightWeapons;
+			navigateLeftText.text = "<\nUtility\n<";
+			navigateRightText.text = ">\nHeavy\n>";
+		}
+	}
 
-						// Populate the radial menu with the light weapons.
-						PopulateRadialMenu( LightWeapons, "Light Weapons" );
-					}
-				}
-			}
+	public void NavigateRight ()
+	{
+		if( !weaponRadialMenu.RadialMenuActive )
+			return;
+
+		if( currentMenu == CurrentMenu.HeavyWeapons )
+			return;
+
+		if( currentMenu == CurrentMenu.UtilityWeapons )
+		{
+			// Then set the current menu to Utility since it is the one that we are moving to.
+			currentMenu = CurrentMenu.LightWeapons;
+			
+			// Populate the radial menu with the Light Weapons.
+			PopulateRadialMenu( LightWeapons, "Light Weapons" );
+
+			navigateLeftText.text = "<\nUtility\n<";
+			navigateRightText.text = ">\nHeavy\n>";
+		}
+		else
+		{
+			// Set the current menu to heavy.
+			currentMenu = CurrentMenu.HeavyWeapons;
+
+			// Populate the radial menu with the heavy weapons.
+			PopulateRadialMenu( HeavyWeapons, "Heavy Weapons" );
+
+			navigateLeftText.text = "<\nLight\n<";
+			navigateRightText.text = "";
 		}
 	}
 
@@ -194,10 +202,6 @@ public class GunWheelRadialMenuHandler : MonoBehaviour
 	{
 		// Disable the background panel.
 		backgroundPanel.SetActive( false );
-
-		// Reset the radial menu to the Light Weapons.
-		currentMenu = CurrentMenu.LightWeapons;
-		PopulateRadialMenu( LightWeapons, "Light Weapons" );
 	}
 
 	void ShowCurrentWeaponInfo ( string key )

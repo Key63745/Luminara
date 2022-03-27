@@ -15,6 +15,8 @@ public class PlayerIdleState : PlayerBaseState
     public override void UpdateState()
     {
         CheckSwitchStates();
+        Ctx.AppliedMovementX = 0;
+        Ctx.AppliedMovementZ = 0;
     }
 
     public override void ExitState() { }

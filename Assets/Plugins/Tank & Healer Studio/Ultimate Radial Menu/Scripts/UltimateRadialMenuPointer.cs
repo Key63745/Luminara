@@ -204,10 +204,10 @@ public class UltimateRadialMenuPointer : MonoBehaviour
 			return;
 
 		// Loop through each style and check for the corresponding button count.
-		for( int i = PointerStyles.Count - 1; i >= 0; i-- )
+		for( int i = 0; i < PointerStyles.Count; i++ )
 		{
-			// If this style button count is lower than the radial button count...
-			if( PointerStyles[ i ].buttonCount <= buttonCount )
+			// If this button count is lower than the pointer style button count...
+			if( buttonCount <= PointerStyles[ i ].buttonCount )
 			{
 				// Assign this sprite and break the loop.
 				pointerImage.sprite = PointerStyles[ i ].pointerSprite;

@@ -101,6 +101,8 @@ public class PlayerStateMachine : MonoBehaviour
 
         Vector3 moveDirection = Quaternion.Euler(0, _camera.transform.eulerAngles.y, 0) * _appliedMovement;
         _characterController.Move(moveDirection * Time.deltaTime);
+
+        Debug.Log(_currentState.ToString());
     }
 
     void HandleRotation()
