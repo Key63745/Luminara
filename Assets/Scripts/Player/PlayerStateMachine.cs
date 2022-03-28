@@ -25,11 +25,11 @@ public class PlayerStateMachine : MonoBehaviour
     bool _isRunPressed;
 
     float _rotationSpeed = 15.0f;
-    float _walkSpeed = 2.5f;
-    float _runSpeed = 4.0f;
+    float _walkSpeed = 5f;
+    float _runSpeed = 8f;
 
     float _gravity = -9.8f;
-    float _groundedGravity = -.05f;
+    float _groundedGravity = -10f;
 
     bool _isJumpPressed = false;
     float _initialJumpVelocity = 5f;
