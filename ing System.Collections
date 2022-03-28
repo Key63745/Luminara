@@ -1,0 +1,100 @@
+ .../Required/Shaders/SGT_Atmosphere_Bundle.asset   |    2 [32m+[m[31m-[m
+ .../Required/Shaders/SGT_Aurora_Bundle.asset       |    2 [32m+[m[31m-[m
+ .../Required/Shaders/SGT_Backdrop_Bundle.asset     |    2 [32m+[m[31m-[m
+ .../Shaders/SGT_Belt_Additive_Bundle.asset         |    2 [32m+[m[31m-[m
+ .../Required/Shaders/SGT_Belt_Opaque_Bundle.asset  |    2 [32m+[m[31m-[m
+ .../Required/Shaders/SGT_Cloudsphere_Bundle.asset  |    2 [32m+[m[31m-[m
+ .../Flare/Required/Shaders/SGT_Flare_Bundle.asset  |    2 [32m+[m[31m-[m
+ .../Required/Shaders/SGT_Jovian_Bundle.asset       |    2 [32m+[m[31m-[m
+ .../Required/Shaders/SGT_ShadowLayer_Bundle.asset  |    2 [32m+[m[31m-[m
+ .../Required/Shaders/SGT_Lightning_Bundle.asset    |    2 [32m+[m[31m-[m
+ .../Required/Shaders/SGT_Planet_Bundle.asset       |    2 [32m+[m[31m-[m
+ .../Required/Shaders/SGT_Prominence_Bundle.asset   |    2 [32m+[m[31m-[m
+ .../Ring/Required/Shaders/SGT_Ring_Bundle.asset    |    2 [32m+[m[31m-[m
+ .../Examples/Shaders/SGT_Additive_Bundle.asset     |    2 [32m+[m[31m-[m
+ .../Shared/Examples/Shaders/SGT_Solid_Bundle.asset |    2 [32m+[m[31m-[m
+ .../Required/Shaders/SGT_BlackHole_Bundle.asset    |    2 [32m+[m[31m-[m
+ .../Required/Shaders/SGT_Lens_Bundle.asset         |    2 [32m+[m[31m-[m
+ .../Shaders/SGT_Spacetime_Additive_Bundle.asset    |    2 [32m+[m[31m-[m
+ .../Star/Required/Shaders/SGT_Star_Bundle.asset    |    2 [32m+[m[31m-[m
+ .../Shaders/SGT_StarfieldInfinite_Bundle.asset     |    2 [32m+[m[31m-[m
+ .../Required/Shaders/SGT_Starfield_Bundle.asset    |    2 [32m+[m[31m-[m
+ .../Required/Shaders/SGT_TerrainOcean_Bundle.asset |    2 [32m+[m[31m-[m
+ .../Shaders/SGT_TerrainPlanet_Bundle.asset         |    2 [32m+[m[31m-[m
+ .../Required/Shaders/SGT_Thruster_Bundle.asset     |    2 [32m+[m[31m-[m
+ .../SampleScene/LightingSettings3High.lighting     |    2 [32m+[m[31m-[m
+ Assets/TextMesh Pro.meta                           |    8 [32m+[m
+ Assets/TextMesh Pro/Documentation.meta             |    8 [32m+[m
+ .../Documentation/TextMesh Pro User Guide 2016.pdf |  Bin [31m0[m -> [32m694398[m bytes
+ .../TextMesh Pro User Guide 2016.pdf.meta          |    7 [32m+[m
+ Assets/TextMesh Pro/Fonts.meta                     |    8 [32m+[m
+ Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt |   46 [32m+[m
+ .../Fonts/LiberationSans - OFL.txt.meta            |    8 [32m+[m
+ Assets/TextMesh Pro/Fonts/LiberationSans.ttf       |  Bin [31m0[m -> [32m350200[m bytes
+ Assets/TextMesh Pro/Fonts/LiberationSans.ttf.meta  |   19 [32m+[m
+ Assets/TextMesh Pro/Resources.meta                 |    8 [32m+[m
+ .../TextMesh Pro/Resources/Fonts & Materials.meta  |    9 [32m+[m
+ .../LiberationSans SDF - Drop Shadow.mat           |  106 [32m+[m
+ .../LiberationSans SDF - Drop Shadow.mat.meta      |    8 [32m+[m
+ .../LiberationSans SDF - Fallback.asset            |  343 [32m+[m
+ .../LiberationSans SDF - Fallback.asset.meta       |    8 [32m+[m
+ .../LiberationSans SDF - Outline.mat               |  104 [32m+[m
+ .../LiberationSans SDF - Outline.mat.meta          |    8 [32m+[m
+ .../Fonts & Materials/LiberationSans SDF.asset     | 7821 [32m++++++++++++++++++++[m
+ .../LiberationSans SDF.asset.meta                  |    8 [32m+[m
+ .../LineBreaking Following Characters.txt          |    1 [32m+[m
+ .../LineBreaking Following Characters.txt.meta     |    8 [32m+[m
+ .../Resources/LineBreaking Leading Characters.txt  |    1 [32m+[m
+ .../LineBreaking Leading Characters.txt.meta       |    8 [32m+[m
+ Assets/TextMesh Pro/Resources/Sprite Assets.meta   |    9 [32m+[m
+ .../Resources/Sprite Assets/EmojiOne.asset         |  659 [32m++[m
+ .../Resources/Sprite Assets/EmojiOne.asset.meta    |    8 [32m+[m
+ Assets/TextMesh Pro/Resources/Style Sheets.meta    |    9 [32m+[m
+ .../Style Sheets/Default Style Sheet.asset         |   68 [32m+[m
+ .../Style Sheets/Default Style Sheet.asset.meta    |    8 [32m+[m
+ Assets/TextMesh Pro/Resources/TMP Settings.asset   |   46 [32m+[m
+ .../TextMesh Pro/Resources/TMP Settings.asset.meta |    8 [32m+[m
+ Assets/TextMesh Pro/Shaders.meta                   |    8 [32m+[m
+ .../Shaders/TMP_Bitmap-Custom-Atlas.shader         |  143 [32m+[m
+ .../Shaders/TMP_Bitmap-Custom-Atlas.shader.meta    |    9 [32m+[m
+ .../TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader  |  145 [32m+[m
+ .../Shaders/TMP_Bitmap-Mobile.shader.meta          |    9 [32m+[m
+ Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader      |  143 [32m+[m
+ Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader.meta |    9 [32m+[m
+ Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader |  317 [32m+[m
+ .../Shaders/TMP_SDF Overlay.shader.meta            |    9 [32m+[m
+ Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader     |  310 [32m+[m
+ .../TextMesh Pro/Shaders/TMP_SDF SSD.shader.meta   |    9 [32m+[m
+ .../Shaders/TMP_SDF-Mobile Masking.shader          |  247 [32m+[m
+ .../Shaders/TMP_SDF-Mobile Masking.shader.meta     |    9 [32m+[m
+ .../Shaders/TMP_SDF-Mobile Overlay.shader          |  240 [32m+[m
+ .../Shaders/TMP_SDF-Mobile Overlay.shader.meta     |    9 [32m+[m
+ .../TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader |  106 [32m+[m
+ .../Shaders/TMP_SDF-Mobile SSD.shader.meta         |    9 [32m+[m
+ Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader  |  240 [32m+[m
+ .../Shaders/TMP_SDF-Mobile.shader.meta             |    9 [32m+[m
+ .../Shaders/TMP_SDF-Surface-Mobile.shader          |  138 [32m+[m
+ .../Shaders/TMP_SDF-Surface-Mobile.shader.meta     |    9 [32m+[m
+ Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader |  158 [32m+[m
+ .../Shaders/TMP_SDF-Surface.shader.meta            |    9 [32m+[m
+ Assets/TextMesh Pro/Shaders/TMP_SDF.shader         |  317 [32m+[m
+ Assets/TextMesh Pro/Shaders/TMP_SDF.shader.meta    |    9 [32m+[m
+ Assets/TextMesh Pro/Shaders/TMP_Sprite.shader      |  116 [32m+[m
+ Assets/TextMesh Pro/Shaders/TMP_Sprite.shader.meta |    9 [32m+[m
+ Assets/TextMesh Pro/Shaders/TMPro.cginc            |   84 [32m+[m
+ Assets/TextMesh Pro/Shaders/TMPro.cginc.meta       |    9 [32m+[m
+ Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc     |  157 [32m+[m
+ .../TextMesh Pro/Shaders/TMPro_Mobile.cginc.meta   |    9 [32m+[m
+ Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc |   85 [32m+[m
+ .../Shaders/TMPro_Properties.cginc.meta            |    9 [32m+[m
+ Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc    |  101 [32m+[m
+ .../TextMesh Pro/Shaders/TMPro_Surface.cginc.meta  |    9 [32m+[m
+ Assets/TextMesh Pro/Sprites.meta                   |    8 [32m+[m
+ .../TextMesh Pro/Sprites/EmojiOne Attribution.txt  |    3 [32m+[m
+ .../Sprites/EmojiOne Attribution.txt.meta          |    7 [32m+[m
+ Assets/TextMesh Pro/Sprites/EmojiOne.json          |  156 [32m+[m
+ Assets/TextMesh Pro/Sprites/EmojiOne.json.meta     |    8 [32m+[m
+ Assets/TextMesh Pro/Sprites/EmojiOne.png           |  Bin [31m0[m -> [32m112319[m bytes
+ Assets/TextMesh Pro/Sprites/EmojiOne.png.meta      |  431 [32m++[m
+ UserSettings/EditorUserSettings.asset              |    4 [32m+[m[31m-[m
+ 99 files changed, 13208 insertions(+), 27 deletions(-)
