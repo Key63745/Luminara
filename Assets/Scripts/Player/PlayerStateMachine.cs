@@ -13,6 +13,7 @@ public class PlayerStateMachine : MonoBehaviour
     Camera _camera;
     [SerializeField] CinemachineVirtualCamera _cinCam;
     [SerializeField] InputActionReference _lookReference;
+    [SerializeField] GameObject _interactHint;
     
     [SerializeField] UltimateRadialMenu _inventory;
     Vector2 _inventoryInput;
@@ -67,6 +68,7 @@ public class PlayerStateMachine : MonoBehaviour
         _playerInput = GetComponent<PlayerInput>();
         _playerInputActions = new PlayerInputActions();
        _characterController = GetComponent<CharacterController>();
+        _animator = GetComponent<Animator>();
         _camera = Camera.main;
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -90,7 +92,7 @@ public class PlayerStateMachine : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        _inventory.RemoveAllRadialButtons();
     }
 
     // Update is called once per frame
@@ -101,6 +103,30 @@ public class PlayerStateMachine : MonoBehaviour
 
         Vector3 moveDirection = Quaternion.Euler(0, _camera.transform.eulerAngles.y, 0) * _appliedMovement;
         _characterController.Move(moveDirection * Time.deltaTime);
+        _animator.SetFloat("X", _appliedMovement.x);
+        _animator.SetFloat("Y", _appliedMovement.z);
+
+        //Raycast for finding Interactables
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, 2f))
+        {
+            if (raycastHit.collider.tag == "Interactable")
+            {
+                _interactHint.SetActive(true);
+                if (_playerInputActions.PlayerControls.Interact.triggered)
+                {
+                    raycastHit.collider.GetComponent<Interactable>().interact.Invoke();
+                }
+            }
+            else
+            {
+                _interactHint.SetActive(false);
+            }
+        } else
+        {
+            _interactHint.SetActive(false);
+        }
     }
 
     void HandleRotation()
@@ -136,7 +162,8 @@ public class PlayerStateMachine : MonoBehaviour
             {
                 _inventory.EnableRadialMenu();
                 _cinCam.GetComponent<CinemachineInputProvider>().XYAxis = null;
-            } else
+            }
+            else
             {
                 _inventory.DisableRadialMenu();
                 _cinCam.GetComponent<CinemachineInputProvider>().XYAxis = _lookReference;
