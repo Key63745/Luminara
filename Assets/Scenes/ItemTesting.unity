@@ -24192,7 +24192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items:
   - name: Flashlight
-    icon: {fileID: 21300000, guid: 5b561193321a72a42bb8265b3f115f86, type: 3}
+    icon: {fileID: 21300000, guid: 1068e45353054714790ed4c65e9b1ffa, type: 3}
     buttonInfo:
       radialButton:
         radialMenu: {fileID: 0}
