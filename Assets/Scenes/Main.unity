@@ -516,7 +516,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
+  m_fontSize: 66.55
   m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1142,6 +1142,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 717833417}
+  - component: {fileID: 717833418}
   m_Layer: 0
   m_Name: Star
   m_TagString: Untagged
@@ -1165,6 +1166,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -15.12}
+--- !u!114 &717833418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 717833416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f0938c455364e145b6795f3ddce99f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &814064607
 GameObject:
   m_ObjectHideFlags: 0
@@ -2916,7 +2929,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
+  m_fontSize: 37.2
   m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 1
