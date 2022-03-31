@@ -25,7 +25,6 @@ public class PlayerStateMachine : MonoBehaviour
     bool _isMovementPressed;
     bool _isRunPressed;
 
-    float _rotationSpeed = 15.0f;
     float _walkSpeed = 5f;
     float _runSpeed = 8f;
 
@@ -33,7 +32,7 @@ public class PlayerStateMachine : MonoBehaviour
     float _groundedGravity = -10f;
 
     bool _isJumpPressed = false;
-    float _initialJumpVelocity = 5f;
+    float _initialJumpVelocity = 8f;
     float _maxJumpHeight = 3.0f;
     float _maxJumpTime = .75f;
     bool _isJumping = false;
@@ -138,6 +137,8 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _currentMovementInput = context.ReadValue<Vector2>();
         _isMovementPressed = _currentMovementInput.x != 0 || _currentMovementInput.y != 0;
+        _walkSpeed = _currentMovementInput.y >= 0 ? 5f : 3f;
+        _runSpeed = _currentMovementInput.y >= 0 ? 8f : 5f;
     }
 
     void OnJump(InputAction.CallbackContext context)
@@ -148,6 +149,7 @@ public class PlayerStateMachine : MonoBehaviour
     void OnRun(InputAction.CallbackContext context)
     {
         _isRunPressed = context.ReadValueAsButton();
+        _cinCam.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_MaxValue = _isRunPressed ? 30 : 40;
     }
 
     void OnInventoryInput(InputAction.CallbackContext context)
