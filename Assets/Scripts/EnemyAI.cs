@@ -101,9 +101,11 @@ public class EnemyAI : MonoBehaviour
         navMeshAgent.isStopped = true;
         navMeshAgent.ResetPath();
         idle = true;
+        animator.SetBool("isIdle", true);
 		yield return new WaitForSeconds (4.5f);
         idle = false;
         navMeshAgent.isStopped = false;
+        animator.SetBool("isIdle", false);
     }
 
     IEnumerator DelayAudio()
