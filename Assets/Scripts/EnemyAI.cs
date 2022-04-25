@@ -18,6 +18,7 @@ public class EnemyAI : MonoBehaviour
     public bool alerted;
     public bool isMoving;
     public bool idle;
+    public bool attacking;
     public Vector3 targetPos;
     public float wanderDistance = 5.0f;
     public float walkAwareDistance = 20.0f;
@@ -85,7 +86,17 @@ public class EnemyAI : MonoBehaviour
                 chaseAudioPrevented = true;
                 StartCoroutine(DelayAudio());
             }
-            navMeshAgent.SetDestination (Player.transform.position);
+
+            if (!attacking)
+            {
+                navMeshAgent.SetDestination(Player.transform.position);
+                if (pathComplete())
+                {
+                    attacking = true;
+                    StartCoroutine(DelayAttack());
+                }
+            }
+            
         }
     }
 
@@ -112,6 +123,15 @@ public class EnemyAI : MonoBehaviour
     {
         yield return new WaitForSeconds(3.5f);
         chaseAudioPrevented = false;
+    }
+
+    IEnumerator DelayAttack()
+    {
+        navMeshAgent.isStopped = true;
+        navMeshAgent.ResetPath();
+        animator.Play("Base Layer.Attack", 0, 0.0f);
+        yield return new WaitForSeconds(1.5f);
+        attacking = false;
     }
 
     protected bool pathComplete() {
