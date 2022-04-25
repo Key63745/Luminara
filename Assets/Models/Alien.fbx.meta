@@ -57,7 +57,7 @@ ModelImporter:
       takeName: rig|attack
       internalID: 0
       firstFrame: 0
-      lastFrame: 199
+      lastFrame: 25
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -86,7 +86,7 @@ ModelImporter:
       takeName: rig|Idle
       internalID: 0
       firstFrame: 0
-      lastFrame: 239
+      lastFrame: 50
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -115,7 +115,7 @@ ModelImporter:
       takeName: rig|Powerfull_attack
       internalID: 0
       firstFrame: 0
-      lastFrame: 199
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -173,14 +173,14 @@ ModelImporter:
       takeName: rig|Run
       internalID: 0
       firstFrame: 0
-      lastFrame: 199
+      lastFrame: 25
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
