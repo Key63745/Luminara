@@ -29,12 +29,9 @@ public class PlayerStateMachine : MonoBehaviour
     float _runSpeed = 8f;
 
     float _gravity = -9.8f;
-    float _groundedGravity = -10f;
 
     bool _isJumpPressed = false;
     float _initialJumpVelocity = 8f;
-    float _maxJumpHeight = 3.0f;
-    float _maxJumpTime = .75f;
     bool _isJumping = false;
     bool _requireNewJumpPress = false;
 
@@ -51,8 +48,7 @@ public class PlayerStateMachine : MonoBehaviour
     public bool IsJumping { set { _isJumping = value; } }
     public bool IsJumpPressed { get { return _isJumpPressed; } }
     public bool RequireNewJumpPress { get { return _requireNewJumpPress; } set { _requireNewJumpPress = value; } }
-    public float GroundedGravity { get { return _groundedGravity; } }
-    public float JumpGravity { get { return _gravity; } }
+    public float Gravity { get { return _gravity; } }
     public float InitialJumpVelocity { get { return _initialJumpVelocity; } }
     public float CurrentMovementY { get { return _currentMovement.y; } set { _currentMovement.y = value; } }
     public float AppliedMovementY { get { return _appliedMovement.y; } set { _appliedMovement.y = value; } }

@@ -2,23 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerJumpState : PlayerBaseState
+public class PlayerJumpState : PlayerBaseState, IRootState
 {
     public PlayerJumpState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base(currentContext, playerStateFactory) 
     {
         IsRootState = true;
-        InitializeSubState();
     }
 
     public override void EnterState()
     {
+        InitializeSubState();
         HandleJump();
     }
     
     public override void UpdateState() 
     {
-        CheckSwitchStates();
         HandleGravity();
+        CheckSwitchStates();
     }
 
     public override void ExitState()
@@ -46,7 +46,7 @@ public class PlayerJumpState : PlayerBaseState
         Ctx.AppliedMovementY = Ctx.InitialJumpVelocity;
     }
 
-    void HandleGravity()
+    public void HandleGravity()
     {
         bool isFalling = Ctx.CurrentMovementY <= 0.0f || !Ctx.IsJumpPressed;
         float fallSpeed = 2.0f;
@@ -54,13 +54,13 @@ public class PlayerJumpState : PlayerBaseState
         if (isFalling)
         {
             float prevYVelocity = Ctx.CurrentMovementY;
-            Ctx.CurrentMovementY = Ctx.CurrentMovementY + (Ctx.JumpGravity * fallSpeed * Time.deltaTime);
+            Ctx.CurrentMovementY = Ctx.CurrentMovementY + (Ctx.Gravity * fallSpeed * Time.deltaTime);
             Ctx.AppliedMovementY = Mathf.Max((prevYVelocity + Ctx.CurrentMovementY) * .5f, -20.0f);
         } 
         else
         {
             float prevYVelocity = Ctx.CurrentMovementY;
-            Ctx.CurrentMovementY = Ctx.CurrentMovementY + (Ctx.JumpGravity * Time.deltaTime);
+            Ctx.CurrentMovementY = Ctx.CurrentMovementY + (Ctx.Gravity * Time.deltaTime);
             Ctx.AppliedMovementY = (prevYVelocity + Ctx.CurrentMovementY) * .5f;
         }
     }

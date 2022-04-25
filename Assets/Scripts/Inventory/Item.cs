@@ -24,7 +24,13 @@ public abstract class Item : Interactable
     void Pickup()
     {
         UltimateRadialMenu.RegisterToRadialMenu("Inventory", Equip, _itemManager.itemDictionary[_key].buttonInfo);
-        Destroy(gameObject);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Transform attachment = player.transform.Find("Attachment");
+        gameObject.transform.SetParent(player.transform);
+        gameObject.transform.position = attachment.position;
+        gameObject.transform.localRotation = attachment.localRotation;
+        gameObject.SetActive(false);
+        gameObject.tag = "Untagged";
     }
 
     public abstract void Equip();

@@ -2,21 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGroundedState : PlayerBaseState, IRootState
+public class PlayerFallState : PlayerBaseState, IRootState
 {
-    public PlayerGroundedState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base (currentContext, playerStateFactory) 
+    public PlayerFallState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory) : base (currentContext, playerStateFactory) 
     {
         IsRootState = true;
     }
     
     public override void EnterState()
     {
-        InitializeSubState();
-        HandleGravity();
     }
 
     public override void UpdateState()
     {
+        InitializeSubState();
+        HandleGravity();
         CheckSwitchStates();
     }
 
@@ -38,18 +38,16 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
 
     public override void CheckSwitchStates()
     {
-        if (Ctx.IsJumpPressed && !Ctx.RequireNewJumpPress)
+        if (Ctx.CharacterController.isGrounded)
         {
-            SwitchState(Factory.Jump());
-        } else if (!Ctx.CharacterController.isGrounded)
-        {
-            SwitchState(Factory.Fall());
+            SwitchState(Factory.Grounded());
         }
     }
 
     public void HandleGravity()
     {
-        Ctx.CurrentMovementY = Ctx.Gravity;
-        Ctx.AppliedMovementY = Ctx.Gravity;
+        float prevYVelocity = Ctx.CurrentMovementY;
+        Ctx.CurrentMovementY = Ctx.CurrentMovementY + Ctx.Gravity * Time.deltaTime;
+        Ctx.AppliedMovementY = Mathf.Max((prevYVelocity + Ctx.CurrentMovementY) * .5f, -20.0f);
     }
 }

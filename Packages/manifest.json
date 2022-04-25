@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "ca.andydbc.unity-texture-packer": "file:C:/Users/logan/OneDrive/Desktop/Programming/UnityPackages/unity-texture-packer-master",
+    "com.unity.animation.rigging": "1.0.3",
     "com.unity.burst": "1.4.11",
     "com.unity.cinemachine": "2.6.11",
     "com.unity.collab-proxy": "1.15.7",
