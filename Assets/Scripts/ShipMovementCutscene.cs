@@ -7,17 +7,23 @@ public class ShipMovementCutscene : MonoBehaviour
 {
     public float delay1 = 7.5f;
     public float delay2 = 4.0f;
+    public float delay1b = 5.0f;
     public float delay3 = 6.0f;
+    public float delayFinal = 6.0f;
     public Transform target;
     public GameObject camera1;
+    public GameObject camera4;
     public GameObject camera2;
     public GameObject camera3;
+    public GameObject cameraFinal;
     public Transform man;
     public Transform machine;
+    public Transform dummyPod;
     public Transform machineDupe;
     public Transform targetPod;
     public bool moveMan;
     public bool movePod;
+    public bool moveDummyPod;
     public float speed;
     public float speed2;
 
@@ -41,6 +47,12 @@ public class ShipMovementCutscene : MonoBehaviour
             man.position = Vector3.MoveTowards(man.position, newYPos, step);
         }
 
+        if (moveDummyPod)
+        {
+            Vector3 newYPos = new Vector3(dummyPod.position.x, -1000, dummyPod.position.z);
+            dummyPod.position = Vector3.MoveTowards(dummyPod.position, newYPos, step);
+        }
+
         if (movePod)
         {
             float step2 = speed2 * Time.deltaTime;
@@ -52,6 +64,7 @@ public class ShipMovementCutscene : MonoBehaviour
                 Mathf.PerlinNoise(2, Time.time * frequency) * 2 - 1
             ) * 0.1f;
         }
+
     }
 
 
@@ -61,19 +74,37 @@ public class ShipMovementCutscene : MonoBehaviour
         camera1.SetActive(false);
         camera2.SetActive(true);
         moveMan = true;
+        StartCoroutine(SceneSwap1A());
+    }
+
+    IEnumerator SceneSwap1A()
+    {
+        yield return new WaitForSeconds(delay1b);
+        camera2.SetActive(false);
+        camera4.SetActive(true);
+        moveDummyPod = true;
         StartCoroutine(SceneSwap2());
     }
 
     IEnumerator SceneSwap2()
     {
         yield return new WaitForSeconds(delay2);
-        camera2.SetActive(false);
+        camera4.SetActive(false);
         camera3.SetActive(true);
         movePod = true;
         StartCoroutine(SceneSwap3());
     }
 
     IEnumerator SceneSwap3()
+    {
+        yield return new WaitForSeconds(delayFinal);
+        camera3.SetActive(false);
+        cameraFinal.SetActive(true);
+        cameraFinal.transform.parent = null;
+        StartCoroutine(SceneSwapFinal());
+    }
+
+    IEnumerator SceneSwapFinal()
     {
         yield return new WaitForSeconds(delay3);
         LoadScene("Story");
