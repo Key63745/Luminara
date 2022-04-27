@@ -58,6 +58,8 @@ public class PlayerStateMachine : MonoBehaviour
     public float RunSpeed { get { return _runSpeed; } }
     public Vector2 CurrentMovementInput { get { return _currentMovementInput; } }
 
+    public Item heldItem;
+
     void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();

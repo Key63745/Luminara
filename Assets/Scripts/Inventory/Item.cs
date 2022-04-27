@@ -14,6 +14,7 @@ public abstract class Item : Interactable
 
     [SerializeField] string _key;
     [SerializeField] ItemManager _itemManager;
+    [SerializeField] bool _collectable;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,6 @@ public abstract class Item : Interactable
 
     void Pickup()
     {
-        UltimateRadialMenu.RegisterToRadialMenu("Inventory", Equip, _itemManager.itemDictionary[_key].buttonInfo);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Transform attachment = player.transform.Find("Attachment");
         gameObject.transform.SetParent(player.transform);
@@ -31,6 +31,9 @@ public abstract class Item : Interactable
         gameObject.transform.localRotation = attachment.localRotation;
         gameObject.SetActive(false);
         gameObject.tag = "Untagged";
+
+        if (!_collectable)
+            UltimateRadialMenu.RegisterToRadialMenu("Inventory", Equip, _itemManager.itemDictionary[_key].buttonInfo);
     }
 
     public abstract void Equip();
