@@ -147,7 +147,7 @@ public class PlayerStateMachine : MonoBehaviour
     void OnRun(InputAction.CallbackContext context)
     {
         _isRunPressed = context.ReadValueAsButton();
-        _cinCam.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_MaxValue = _isRunPressed ? 30 : 40;
+        _cinCam.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_MaxValue = _isRunPressed ? 30 : 45;
     }
 
     void OnInventoryInput(InputAction.CallbackContext context)

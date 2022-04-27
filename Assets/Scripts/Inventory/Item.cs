@@ -26,7 +26,9 @@ public abstract class Item : Interactable
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Transform attachment = player.transform.Find("Attachment");
+        GameObject origParent = gameObject.transform.parent.gameObject;
         gameObject.transform.SetParent(player.transform);
+        Destroy(origParent);
         gameObject.transform.position = attachment.position;
         gameObject.transform.localRotation = attachment.localRotation;
         gameObject.SetActive(false);
@@ -37,4 +39,16 @@ public abstract class Item : Interactable
     }
 
     public abstract void Equip();
+
+    public void HandleEquip() {
+        if (gameObject.GetComponentInParent<PlayerStateMachine>().heldItem != null)
+        {
+            if (gameObject.GetComponentInParent<PlayerStateMachine>().heldItem != gameObject.GetComponent<Item>())
+            {
+                GameObject alreadyHeldObject = gameObject.GetComponentInParent<PlayerStateMachine>().heldItem.gameObject;
+                alreadyHeldObject.SetActive(false);
+                alreadyHeldObject = null;
+            }
+        }
+    }
 }
