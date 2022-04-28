@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
+    public PlayerStateMachine player;
     public int type = 0;
     public float health = 100.0f;
     private bool dead;
@@ -13,6 +14,7 @@ public class EnemyAI : MonoBehaviour
     public AudioClip s2;
     public AudioClip s3;
     public AudioClip s4;
+    public AudioClip test;
     bool chaseAudioPrevented = true;
 
     Animator animator;
@@ -162,6 +164,8 @@ public class EnemyAI : MonoBehaviour
         navMeshAgent.isStopped = true;
         navMeshAgent.ResetPath();
         animator.Play("Base Layer.Attack", 0, 0.0f);
+        player.DamagePlayer(20);
+        //audioSource.PlayOneShot(test, 1.0f);
         yield return new WaitForSeconds(1.5f);
         attacking = false;
     }

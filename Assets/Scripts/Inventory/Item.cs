@@ -36,6 +36,9 @@ public abstract class Item : Interactable
 
         if (!_collectable)
             UltimateRadialMenu.RegisterToRadialMenu("Inventory", Equip, _itemManager.itemDictionary[_key].buttonInfo);
+
+        if (_collectable)
+            player.GetComponent<FuelManager>().numOfFuel++;
     }
 
     public abstract void Equip();

@@ -5,7 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class NewGame : MonoBehaviour
 {
-   public void LoadScene(string sceneName){
+
+    public GameObject fade;
+
+    public void LoadScene(string sceneName){
        SceneManager.LoadScene(sceneName); 
    }
+
+    public void Load()
+    {
+        StartCoroutine(FadeDelay());
+    }
+
+    IEnumerator FadeDelay()
+    {
+        fade.SetActive(true);
+        yield return new WaitForSeconds(1.0f);
+        LoadScene("Prologue");
+    }
 }
