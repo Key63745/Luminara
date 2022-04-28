@@ -12,6 +12,7 @@ public class BaseTrigger : MonoBehaviour
             foreach (EnemyAI obj in yourObjects)
             {
                 obj.gameObject.transform.position = obj.initialPos;
+                obj.gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>().nextPosition = obj.initialPos;
                 obj.targetPos = obj.initialPos;
                 obj.health = 100.0f;
                 obj.dead = false;
