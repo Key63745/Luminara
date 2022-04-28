@@ -14,7 +14,7 @@ public abstract class Item : Interactable
 
     [SerializeField] string _key;
     [SerializeField] ItemManager _itemManager;
-    [SerializeField] bool _collectable;
+    public bool collectable;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +34,7 @@ public abstract class Item : Interactable
         gameObject.SetActive(false);
         gameObject.tag = "Untagged";
 
-        if (!_collectable)
+        if (!collectable)
             UltimateRadialMenu.RegisterToRadialMenu("Inventory", Equip, _itemManager.itemDictionary[_key].buttonInfo);
         else
         {
@@ -49,15 +49,15 @@ public abstract class Item : Interactable
     {
         if (gameObject.GetComponentInParent<PlayerStateMachine>().heldItem != null)
         {
+            if (gameObject.GetComponentInParent<PlayerStateMachine>().heldItem.gameObject.GetComponent<Item>().collectable)
+            {
+                return false;
+            }
             if (gameObject.GetComponentInParent<PlayerStateMachine>().heldItem != gameObject.GetComponent<Item>())
             {
                 GameObject alreadyHeldObject = gameObject.GetComponentInParent<PlayerStateMachine>().heldItem.gameObject;
                 alreadyHeldObject.SetActive(false);
                 alreadyHeldObject = null;
-                if (gameObject.GetComponentInParent<PlayerStateMachine>().heldItem.gameObject.GetComponent<Collectable>())
-                {
-                    return false;
-                }
             }
 
             return true;

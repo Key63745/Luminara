@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using static Item;
 
 public class ItemManager : MonoBehaviour
 {
-
+    
     public InventoryItem[] items;
 
     [HideInInspector] public Dictionary<string, InventoryItem> itemDictionary = new Dictionary<string, InventoryItem>();
