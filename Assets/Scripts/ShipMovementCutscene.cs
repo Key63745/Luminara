@@ -8,9 +8,10 @@ public class ShipMovementCutscene : MonoBehaviour
     public float delay1 = 7.5f;
     public float delay2 = 4.0f;
     public float delay1b = 5.0f;
-    public float delay3 = 6.0f;
+    public float delay3 = 4.0f;
     public float delayFinal = 6.0f;
     public Transform target;
+    public GameObject fade;
     public GameObject camera1;
     public GameObject camera4;
     public GameObject camera2;
@@ -107,7 +108,14 @@ public class ShipMovementCutscene : MonoBehaviour
     IEnumerator SceneSwapFinal()
     {
         yield return new WaitForSeconds(delay3);
-        LoadScene("Story");
+        StartCoroutine(FadeDelay());
+    }
+
+    IEnumerator FadeDelay()
+    {
+        fade.SetActive(true);
+        yield return new WaitForSeconds(1.0f);
+        LoadScene("Story2");
     }
 
     public void LoadScene(string sceneName)

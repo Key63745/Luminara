@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
+    public int type = 0;
+    public float health = 100.0f;
+    private bool dead;
     AudioSource audioSource;
     public AudioClip s1;
     public AudioClip s2;
@@ -37,66 +40,96 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
 
-        //Wander when not aware of player
-        if (!alerted) {
-            if (!isMoving && !idle) {
-                targetPos = GetRandomLocationNearby();
-                //Move to selected location
-                navMeshAgent.SetDestination (targetPos);
-                isMoving = true;
-            }
-            else {
-
-                //When path is finished, idle, wait, then repeat
-                if (pathComplete() && isMoving) {
-                    audioSource.PlayOneShot(s4, 1.0f);
-                    Debug.Log(targetPos);
-                    isMoving = false;
-				    //animator.SetBool ("isIdle", true);
-                    StartCoroutine (DelayBeforeMovement ());
-                }
-                
-            }
-        }
-
-        //Become aware of player if they get too close (Larger range if they are running)
-        float dist = Vector3.Distance(Player.transform.position, transform.position);
-        if (dist <= walkAwareDistance) {
+        if (health > 0)
+        {
+            //Wander when not aware of player
             if (!alerted)
             {
-                audioSource.PlayOneShot(s3, 1.0f);
-                StartCoroutine(DelayAudio());
-            }
-            alerted = true;
-        }
-
-        //Chase player when alerted
-        if (alerted) {
-            if (!chaseAudioPrevented)
-            {
-                int soundToPlay = Random.Range(1, 3);
-                if (soundToPlay == 1)
+                if (!isMoving && !idle)
                 {
-                    audioSource.PlayOneShot(s1, 1.0f);
+                    targetPos = GetRandomLocationNearby();
+                    //Move to selected location
+                    navMeshAgent.SetDestination(targetPos);
+                    isMoving = true;
                 }
                 else
                 {
-                    audioSource.PlayOneShot(s2, 1.0f);
+
+                    //When path is finished, idle, wait, then repeat
+                    if (pathComplete() && isMoving)
+                    {
+                        audioSource.PlayOneShot(s4, 1.0f);
+                        Debug.Log(targetPos);
+                        isMoving = false;
+                        //animator.SetBool ("isIdle", true);
+                        StartCoroutine(DelayBeforeMovement());
+                    }
+
                 }
-                chaseAudioPrevented = true;
-                StartCoroutine(DelayAudio());
             }
 
-            if (!attacking)
+            //Become aware of player if they get too close (Larger range if they are running)
+            float dist = Vector3.Distance(Player.transform.position, transform.position);
+            if (dist <= walkAwareDistance)
             {
-                navMeshAgent.SetDestination(Player.transform.position);
-                if (pathComplete())
+                if (!alerted)
                 {
-                    attacking = true;
-                    StartCoroutine(DelayAttack());
+                    if (type == 1)
+                    {
+                        AudioManager.instance.SwapTrack();
+                    }
+                    audioSource.PlayOneShot(s3, 1.0f);
+                    animator.Play("Base Layer.Walk", 0, 0.0f);
+                    StartCoroutine(DelayAudio());
                 }
+                alerted = true;
             }
-            
+
+            //Chase player when alerted
+            if (alerted)
+            {
+                if (!chaseAudioPrevented)
+                {
+                    int soundToPlay = Random.Range(1, 3);
+                    if (soundToPlay == 1)
+                    {
+                        audioSource.PlayOneShot(s1, 1.0f);
+                    }
+                    else
+                    {
+                        audioSource.PlayOneShot(s2, 1.0f);
+                    }
+                    chaseAudioPrevented = true;
+                    StartCoroutine(DelayAudio());
+                }
+
+                if (!attacking)
+                {
+                    navMeshAgent.SetDestination(Player.transform.position);
+                    if (pathComplete())
+                    {
+                        attacking = true;
+                        StartCoroutine(DelayAttack());
+                    }
+                }
+
+            }
+
+
+        }
+        else
+        {
+            if (!dead)
+            {
+                audioSource.PlayOneShot(s3, 1.0f);
+                alerted = false;
+                isMoving = false;
+                attacking = false;
+                navMeshAgent.isStopped = true;
+                navMeshAgent.ResetPath();
+                animator.Play("Base Layer.Death", 0, 0.0f);
+                dead = true;
+            }
         }
     }
 
