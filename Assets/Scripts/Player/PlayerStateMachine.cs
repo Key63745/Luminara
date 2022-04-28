@@ -31,6 +31,9 @@ public class PlayerStateMachine : MonoBehaviour
 
     float _gravity = -9.8f;
 
+    [SerializeField] LayerMask _groundMask;
+    bool _isGrounded = false;
+
     bool _isJumpPressed = false;
     float _initialJumpVelocity = 8f;
     bool _isJumping = false;
@@ -50,6 +53,8 @@ public class PlayerStateMachine : MonoBehaviour
     public bool IsRunPressed { get { return _isRunPressed; } }
     public bool IsJumping { set { _isJumping = value; } }
     public bool IsJumpPressed { get { return _isJumpPressed; } }
+    public bool IsGrounded { set { _isGrounded = value; } get { return _isGrounded; } }
+    public LayerMask GroundMask { get { return _groundMask; } }
     public bool RequireNewJumpPress { get { return _requireNewJumpPress; } set { _requireNewJumpPress = value; } }
     public float Gravity { get { return _gravity; } }
     public float InitialJumpVelocity { get { return _initialJumpVelocity; } }
@@ -95,8 +100,6 @@ public class PlayerStateMachine : MonoBehaviour
     void Start()
     {
         _inventory.RemoveAllRadialButtons();
-        Vector3 moveDirection = Quaternion.Euler(0, _camera.transform.eulerAngles.y, 0) * _appliedMovement;
-        _characterController.Move(moveDirection * Time.deltaTime);
     }
 
     // Update is called once per frame
@@ -104,6 +107,11 @@ public class PlayerStateMachine : MonoBehaviour
     {
         HandleRotation();
         _currentState.UpdateStates();
+        if (_currentState != _states.Jump())
+        {
+            float DistanceToTheGround = GetComponent<Collider>().bounds.extents.y;
+            _isGrounded = Physics.Raycast(transform.position, Vector3.down, DistanceToTheGround + 0.1f, _groundMask);
+        }
 
         Vector3 moveDirection = Quaternion.Euler(0, _camera.transform.eulerAngles.y, 0) * _appliedMovement;
         _characterController.Move(moveDirection * Time.deltaTime);
@@ -152,7 +160,6 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _isJumpPressed = context.ReadValueAsButton();
         _requireNewJumpPress = false;
-        Debug.Log("JUMP PRESSED");
     }
     void OnRun(InputAction.CallbackContext context)
     {
@@ -202,10 +209,11 @@ public class PlayerStateMachine : MonoBehaviour
         if (_playerHealth > 0)
         {
             _playerHealth -= damage;
-        } else if (_playerHealth <= 0)
+        }
+        else if (_playerHealth <= 0)
         {
             _playerHealth = 0;
         }
-        
+
     }
 }

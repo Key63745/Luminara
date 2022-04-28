@@ -41,7 +41,7 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
         if (Ctx.IsJumpPressed && !Ctx.RequireNewJumpPress)
         {
             SwitchState(Factory.Jump());
-        } else if (!Ctx.CharacterController.isGrounded)
+        } else if (!Ctx.IsGrounded)
         {
             SwitchState(Factory.Fall());
         }

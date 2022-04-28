@@ -32,8 +32,8 @@ public class PlayerJumpState : PlayerBaseState, IRootState
     public override void InitializeSubState() { }
 
     public override void CheckSwitchStates() 
-    { 
-        if (Ctx.CharacterController.isGrounded)
+    {
+        if (Ctx.IsGrounded)
         {
             SwitchState(Factory.Grounded());
         }
@@ -42,6 +42,7 @@ public class PlayerJumpState : PlayerBaseState, IRootState
     void HandleJump()
     {
         Ctx.IsJumping = true;
+        Ctx.IsGrounded = false;
         Ctx.CurrentMovementY = Ctx.InitialJumpVelocity;
         Ctx.AppliedMovementY = Ctx.InitialJumpVelocity;
     }
@@ -56,6 +57,8 @@ public class PlayerJumpState : PlayerBaseState, IRootState
             float prevYVelocity = Ctx.CurrentMovementY;
             Ctx.CurrentMovementY = Ctx.CurrentMovementY + (Ctx.Gravity * fallSpeed * Time.deltaTime);
             Ctx.AppliedMovementY = Mathf.Max((prevYVelocity + Ctx.CurrentMovementY) * .5f, -20.0f);
+            float DistanceToTheGround = Ctx.GetComponent<Collider>().bounds.extents.y;
+            Ctx.IsGrounded = Physics.Raycast(Ctx.transform.position, Vector3.down, DistanceToTheGround + 0.1f, Ctx.GroundMask);
         } 
         else
         {

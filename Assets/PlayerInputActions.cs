@@ -46,6 +46,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Slide"",
+                    ""type"": ""Button"",
+                    ""id"": ""e5aeaf27-8fb0-4872-98e5-20e1d1c17c23"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""baff9c28-4720-40e1-b935-6b03acfda301"",
@@ -351,6 +360,28 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4f3aeca1-eb1e-4525-b050-e39c3c70df9a"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""94a785e3-1b2f-4620-b84f-743b95cd676e"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -573,6 +604,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_PlayerControls = asset.FindActionMap("PlayerControls", throwIfNotFound: true);
         m_PlayerControls_Movement = m_PlayerControls.FindAction("Movement", throwIfNotFound: true);
         m_PlayerControls_Run = m_PlayerControls.FindAction("Run", throwIfNotFound: true);
+        m_PlayerControls_Slide = m_PlayerControls.FindAction("Slide", throwIfNotFound: true);
         m_PlayerControls_Jump = m_PlayerControls.FindAction("Jump", throwIfNotFound: true);
         m_PlayerControls_Shoot = m_PlayerControls.FindAction("Shoot", throwIfNotFound: true);
         m_PlayerControls_Aim = m_PlayerControls.FindAction("Aim", throwIfNotFound: true);
@@ -649,6 +681,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private IPlayerControlsActions m_PlayerControlsActionsCallbackInterface;
     private readonly InputAction m_PlayerControls_Movement;
     private readonly InputAction m_PlayerControls_Run;
+    private readonly InputAction m_PlayerControls_Slide;
     private readonly InputAction m_PlayerControls_Jump;
     private readonly InputAction m_PlayerControls_Shoot;
     private readonly InputAction m_PlayerControls_Aim;
@@ -662,6 +695,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public PlayerControlsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_PlayerControls_Movement;
         public InputAction @Run => m_Wrapper.m_PlayerControls_Run;
+        public InputAction @Slide => m_Wrapper.m_PlayerControls_Slide;
         public InputAction @Jump => m_Wrapper.m_PlayerControls_Jump;
         public InputAction @Shoot => m_Wrapper.m_PlayerControls_Shoot;
         public InputAction @Aim => m_Wrapper.m_PlayerControls_Aim;
@@ -684,6 +718,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Run.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnRun;
                 @Run.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnRun;
                 @Run.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnRun;
+                @Slide.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSlide;
+                @Slide.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSlide;
+                @Slide.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSlide;
                 @Jump.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnJump;
@@ -715,6 +752,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Run.started += instance.OnRun;
                 @Run.performed += instance.OnRun;
                 @Run.canceled += instance.OnRun;
+                @Slide.started += instance.OnSlide;
+                @Slide.performed += instance.OnSlide;
+                @Slide.canceled += instance.OnSlide;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
@@ -844,6 +884,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
+        void OnSlide(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);

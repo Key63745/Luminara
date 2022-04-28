@@ -16,8 +16,8 @@ public class PlayerFallState : PlayerBaseState, IRootState
     public override void UpdateState()
     {
         InitializeSubState();
-        CheckSwitchStates();
         HandleGravity();
+        CheckSwitchStates();
     }
 
     public override void ExitState() { }
@@ -38,7 +38,7 @@ public class PlayerFallState : PlayerBaseState, IRootState
 
     public override void CheckSwitchStates()
     {
-        if (Ctx.CharacterController.isGrounded)
+        if (Ctx.IsGrounded)
         {
             SwitchState(Factory.Grounded());
         }
