@@ -111,6 +111,7 @@ public class PlayerStateMachine : MonoBehaviour
         {
             float DistanceToTheGround = GetComponent<Collider>().bounds.extents.y;
             _isGrounded = Physics.Raycast(transform.position, Vector3.down, DistanceToTheGround + 0.1f, _groundMask);
+            print(IsGrounded);
         }
 
         Vector3 moveDirection = Quaternion.Euler(0, _camera.transform.eulerAngles.y, 0) * _appliedMovement;

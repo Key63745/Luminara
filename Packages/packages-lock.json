@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "ca.andydbc.unity-texture-packer": {
-      "version": "file:C:/Users/logan/OneDrive/Desktop/Programming/UnityPackages/unity-texture-packer-master",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {}
-    },
     "com.unity.animation.rigging": {
       "version": "1.0.3",
       "depth": 0,
