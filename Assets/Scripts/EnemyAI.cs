@@ -5,10 +5,11 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
+    public Vector3 initialPos;
     public PlayerStateMachine player;
     public int type = 0;
     public float health = 100.0f;
-    private bool dead;
+    public bool dead;
     AudioSource audioSource;
     public AudioClip s1;
     public AudioClip s2;
@@ -36,6 +37,7 @@ public class EnemyAI : MonoBehaviour
 		animator = GetComponent<Animator> ();
 		navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
         audioSource = GetComponent<AudioSource> ();
+        initialPos = transform.position;
     }
 
     // Update is called once per frame
