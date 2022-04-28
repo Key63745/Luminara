@@ -15,7 +15,7 @@ MonoBehaviour:
   title: Space Graphics Toolkit/Atmosphere
   target: {fileID: 4800000, guid: cf2b8f82252bd70479ee65a19d276925, type: 3}
   variantHash: -1859105956
-  projectHash: 112600014
+  projectHash: 1497106659
   variants:
   - Pipe: 0
     Code: "//<HASH>-1695892551</HASH>\n////////////////////////////////////////\n//

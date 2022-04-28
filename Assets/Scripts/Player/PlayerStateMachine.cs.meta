@@ -3,7 +3,13 @@ guid: 33bf62609bbb52b4385ca8c969f333ba
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _cinCam: {instanceID: 0}
+  - _lookReference: {instanceID: 0}
+  - _interactHint: {instanceID: 0}
+  - _canvas: {instanceID: 0}
+  - _inventory: {instanceID: 0}
+  - heldItem: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
