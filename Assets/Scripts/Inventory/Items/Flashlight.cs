@@ -14,13 +14,16 @@ public class Flashlight : Item
 
     public override void Equip()
     {
-        HandleEquip();
-        gameObject.GetComponentInParent<PlayerStateMachine>().heldItem = gameObject.GetComponent<Item>();
-        gameObject.SetActive(!gameObject.activeSelf);
-        gameObject.transform.parent.Find("FlashlightRig").GetComponent<Rig>().weight = gameObject.activeSelf ? 1 : 0;
-        gameObject.GetComponent<PlayerInput>().enabled = gameObject.activeSelf;
+        var success = HandleEquip();
+        if (success)
+        {
+            gameObject.GetComponentInParent<PlayerStateMachine>().heldItem = gameObject.GetComponent<Item>();
+            gameObject.SetActive(!gameObject.activeSelf);
+            gameObject.transform.parent.Find("FlashlightRig").GetComponent<Rig>().weight = gameObject.activeSelf ? 1 : 0;
+            gameObject.GetComponent<PlayerInput>().enabled = gameObject.activeSelf;
+        }
     }
-    
+
     public void Toggle(InputAction.CallbackContext context)
     {
         lightSource.SetActive(!lightSource.activeSelf);
@@ -61,7 +64,7 @@ public class Flashlight : Item
         if (gameObject.GetComponentInParent<PlayerStateMachine>())
         {
             if (!_draining)
-            StartCoroutine(DrainPower(2.5f));
+                StartCoroutine(DrainPower(2.5f));
 
             if (_power < 30 && _power >= 0 && !_blinking)
             {

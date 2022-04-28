@@ -7,6 +7,7 @@ public class ItemManager : MonoBehaviour
 {
 
     public InventoryItem[] items;
+
     [HideInInspector] public Dictionary<string, InventoryItem> itemDictionary = new Dictionary<string, InventoryItem>();
 
     void Start()

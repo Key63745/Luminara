@@ -36,14 +36,17 @@ public abstract class Item : Interactable
 
         if (!_collectable)
             UltimateRadialMenu.RegisterToRadialMenu("Inventory", Equip, _itemManager.itemDictionary[_key].buttonInfo);
-
-        if (_collectable)
+        else
+        {
             player.GetComponent<FuelManager>().numOfFuel++;
+            Equip();
+        }
     }
 
     public abstract void Equip();
 
-    public void HandleEquip() {
+    public bool HandleEquip()
+    {
         if (gameObject.GetComponentInParent<PlayerStateMachine>().heldItem != null)
         {
             if (gameObject.GetComponentInParent<PlayerStateMachine>().heldItem != gameObject.GetComponent<Item>())
@@ -51,7 +54,14 @@ public abstract class Item : Interactable
                 GameObject alreadyHeldObject = gameObject.GetComponentInParent<PlayerStateMachine>().heldItem.gameObject;
                 alreadyHeldObject.SetActive(false);
                 alreadyHeldObject = null;
+                if (gameObject.GetComponentInParent<PlayerStateMachine>().heldItem.gameObject.GetComponent<Collectable>())
+                {
+                    return false;
+                }
             }
+
+            return true;
         }
+        return true;
     }
 }
