@@ -16,8 +16,8 @@ public class PlayerFallState : PlayerBaseState, IRootState
     public override void UpdateState()
     {
         InitializeSubState();
-        HandleGravity();
         CheckSwitchStates();
+        HandleGravity();
     }
 
     public override void ExitState() { }

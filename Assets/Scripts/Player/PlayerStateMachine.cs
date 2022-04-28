@@ -14,7 +14,8 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera _cinCam;
     [SerializeField] InputActionReference _lookReference;
     [SerializeField] GameObject _interactHint;
-    
+    [SerializeField] GameObject _canvas;
+
     [SerializeField] UltimateRadialMenu _inventory;
     Vector2 _inventoryInput;
     float _inventoryDistance;
@@ -40,6 +41,8 @@ public class PlayerStateMachine : MonoBehaviour
     PlayerBaseState _currentState;
     PlayerStateFactory _states;
 
+    int _playerHealth = 100;
+
     public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public CharacterController CharacterController { get { return _characterController; } }
     public Animator Animator { get { return _animator; } }
@@ -64,7 +67,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _playerInput = GetComponent<PlayerInput>();
         _playerInputActions = new PlayerInputActions();
-       _characterController = GetComponent<CharacterController>();
+        _characterController = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
         _camera = Camera.main;
 
@@ -84,12 +87,16 @@ public class PlayerStateMachine : MonoBehaviour
         _playerInputActions.PlayerControls.Jump.canceled += OnJump;
         _playerInputActions.PlayerControls.Inventory.started += OnInventoryInput;
         _playerInputActions.PlayerControls.Inventory.canceled += OnInventoryInput;
+
+        _playerInputActions.PlayerControls.Pause.started += OnPause;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         _inventory.RemoveAllRadialButtons();
+        Vector3 moveDirection = Quaternion.Euler(0, _camera.transform.eulerAngles.y, 0) * _appliedMovement;
+        _characterController.Move(moveDirection * Time.deltaTime);
     }
 
     // Update is called once per frame
@@ -120,16 +127,18 @@ public class PlayerStateMachine : MonoBehaviour
             {
                 _interactHint.SetActive(false);
             }
-        } else
+        }
+        else
         {
             _interactHint.SetActive(false);
         }
     }
-
     void HandleRotation()
     {
         transform.rotation = Quaternion.Euler(0, _camera.transform.eulerAngles.y, 0);
     }
+
+    #region Input
 
     void OnMovement(InputAction.CallbackContext context)
     {
@@ -143,6 +152,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _isJumpPressed = context.ReadValueAsButton();
         _requireNewJumpPress = false;
+        Debug.Log("JUMP PRESSED");
     }
     void OnRun(InputAction.CallbackContext context)
     {
@@ -171,6 +181,11 @@ public class PlayerStateMachine : MonoBehaviour
         }
     }
 
+    void OnPause(InputAction.CallbackContext context)
+    {
+        _canvas.SetActive(!_canvas.activeSelf);
+    }
+
     void OnEnable()
     {
         _playerInputActions.PlayerControls.Enable();
@@ -179,5 +194,18 @@ public class PlayerStateMachine : MonoBehaviour
     void OnDisable()
     {
         _playerInputActions.PlayerControls.Disable();
+    }
+    #endregion
+
+    public void DamagePlayer(int damage)
+    {
+        if (_playerHealth > 0)
+        {
+            _playerHealth -= damage;
+        } else if (_playerHealth <= 0)
+        {
+            _playerHealth = 0;
+        }
+        
     }
 }

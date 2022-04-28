@@ -59,7 +59,6 @@ public class EnemyAI : MonoBehaviour
                     if (pathComplete() && isMoving)
                     {
                         audioSource.PlayOneShot(s4, 1.0f);
-                        Debug.Log(targetPos);
                         isMoving = false;
                         //animator.SetBool ("isIdle", true);
                         StartCoroutine(DelayBeforeMovement());
